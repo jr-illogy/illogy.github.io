@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Shep — AI That Remembers</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #7c6af7;
+      --accent2: #4fd1c5;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    section {
+      min-height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .inner {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    /* ── Typography ── */
+    h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+    h2 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    h3 { font-size: 1rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+    p  { font-size: 1.1rem; line-height: 1.75; color: #b0b0c0; max-width: 620px; }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 0.25rem 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Section 1 — Hero ── */
+    #hero { background: radial-gradient(ellipse 80% 60% at 50% -10%, #1a1040 0%, var(--bg) 70%); }
+    #hero .inner { display: flex; flex-direction: column; gap: 2rem; }
+    #hero p { font-size: 1.25rem; }
+    .scroll-hint { margin-top: 3rem; color: var(--muted); font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
+    .scroll-hint svg { animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ── Section 2 — Tech ── */
+    #tech { background: var(--surface); }
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .card-icon { margin-bottom: 1rem; }
+    .card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+    .card p { font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── Section 3 — Use Cases ── */
+    #usecases { background: var(--bg); }
+    .cases { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.5rem; }
+    .case { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .case-num { font-size: 2.5rem; font-weight: 700; color: var(--border); line-height: 1; min-width: 2.5rem; }
+    .case-body h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .case-body p { font-size: 0.95rem; }
+
+    /* ── Section 4 — CTA ── */
+    #cta { background: radial-gradient(ellipse 80% 60% at 50% 110%, #1a1040 0%, var(--bg) 70%); text-align: center; }
+    #cta .inner { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+    #cta p { text-align: center; }
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 999px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn:hover { opacity: 0.88; transform: scale(1.04); }
+    .fine { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+
+    /* ── Hover GIFs (SVG animations) ── */
+    .anim-wrap { display: flex; justify-content: flex-end; margin-top: -1rem; margin-bottom: 1rem; }
+    .anim-wrap svg { opacity: 0.18; transition: opacity 0.3s; }
+    .anim-wrap:hover svg { opacity: 1; }
+
+    /* Hero floating orb */
+    .orb-wrap { position: relative; height: 120px; margin-bottom: -1rem; }
+    .orb-wrap svg { position: absolute; right: 0; top: 0; opacity: 0.25; transition: opacity 0.4s; }
+    .orb-wrap:hover svg { opacity: 1; }
+
+    /* pulse ring animation */
+    @keyframes pulse-ring { 0%{r:18;opacity:0.8} 100%{r:48;opacity:0} }
+    .pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+    .pulse-ring2 { animation: pulse-ring 1.8s ease-out 0.6s infinite; }
+    .pulse-ring3 { animation: pulse-ring 1.8s ease-out 1.2s infinite; }
+
+    /* node graph animation */
+    @keyframes dash { to { stroke-dashoffset: 0; } }
+    .edge { stroke-dasharray: 60; stroke-dashoffset: 60; }
+    .edge1 { animation: dash 1.2s ease forwards 0.1s; }
+    .edge2 { animation: dash 1.2s ease forwards 0.4s; }
+    .edge3 { animation: dash 1.2s ease forwards 0.7s; }
+    .edge4 { animation: dash 1.2s ease forwards 1.0s; }
+
+    /* waveform animation */
+    @keyframes wave { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(2.5)} }
+    .bar { transform-origin: bottom; }
+    .b1{animation:wave 1s ease-in-out infinite 0.0s}
+    .b2{animation:wave 1s ease-in-out infinite 0.1s}
+    .b3{animation:wave 1s ease-in-out infinite 0.2s}
+    .b4{animation:wave 1s ease-in-out infinite 0.3s}
+    .b5{animation:wave 1s ease-in-out infinite 0.4s}
+    .b6{animation:wave 1s ease-in-out infinite 0.5s}
+    .b7{animation:wave 1s ease-in-out infinite 0.6s}
+    .b8{animation:wave 1s ease-in-out infinite 0.7s}
+
+    /* typing cursor */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor { animation: blink 1s step-end infinite; }
+
+    /* ── Glitch ── */
+    @keyframes glitch-shake {
+      0%,100% { transform: translateX(0) skewX(0); }
+      15%     { transform: translateX(-6px) skewX(3deg); }
+      30%     { transform: translateX(6px) skewX(-3deg); }
+      45%     { transform: translateX(-4px) skewX(1deg); }
+      60%     { transform: translateX(4px) skewX(-1deg); }
+      75%     { transform: translateX(-2px); }
+    }
+    @keyframes glitch-slice-a {
+      0%   { clip-path: inset(30% 0 55% 0); transform: translateX(-8px); }
+      25%  { clip-path: inset(70% 0 10% 0); transform: translateX(8px); }
+      50%  { clip-path: inset(10% 0 75% 0); transform: translateX(-5px); }
+      75%  { clip-path: inset(50% 0 30% 0); transform: translateX(5px); }
+      100% { clip-path: inset(30% 0 55% 0); transform: translateX(-8px); }
+    }
+    @keyframes glitch-slice-b {
+      0%   { clip-path: inset(60% 0 20% 0); transform: translateX(6px); }
+      25%  { clip-path: inset(15% 0 65% 0); transform: translateX(-6px); }
+      50%  { clip-path: inset(80% 0 5%  0); transform: translateX(4px); }
+      75%  { clip-path: inset(40% 0 40% 0); transform: translateX(-4px); }
+      100% { clip-path: inset(60% 0 20% 0); transform: translateX(6px); }
+    }
+    .glitch-el { position: relative; display: inline-block; }
+    .glitch-el.glitching {
+      animation: glitch-shake 0.09s steps(1) infinite;
+      color: #ff1a1a !important;
+      -webkit-text-fill-color: #ff1a1a !important;
+      text-shadow: 3px 0 #ff1a1a, -3px 0 #00ffea;
+      font-family: monospace !important;
+    }
+    .glitch-el.glitching::before, .glitch-el.glitching::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: #ff1a1a;
+      -webkit-text-fill-color: #ff1a1a;
+      background: transparent;
+    }
+    .glitch-el.glitching::before {
+      text-shadow: -4px 0 #00ffea;
+      animation: glitch-slice-a 0.1s steps(1) infinite;
+    }
+    .glitch-el.glitching::after {
+      text-shadow: 4px 0 #ff1a1a;
+      animation: glitch-slice-b 0.1s steps(1) infinite;
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SECTION 1 — BRIEF TITLE
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="inner">
+    <div class="orb-wrap" title="Hover me">
+      <!-- Pulse orb — hover to reveal -->
+      <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle class="pulse-ring" cx="50" cy="50" r="18" stroke="#7c6af7" stroke-width="1.5" fill="none"/>
+        <circle class="pulse-ring2" cx="50" cy="50" r="18" stroke="#7c6af7" stroke-width="1" fill="none"/>
+        <circle class="pulse-ring3" cx="50" cy="50" r="18" stroke="#4fd1c5" stroke-width="0.8" fill="none"/>
+        <circle cx="50" cy="50" r="14" fill="#7c6af7" opacity="0.9"/>
+        <circle cx="50" cy="50" r="7" fill="#fff" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <div class="tag">Introducing Project Shep</div>
+    <h1><span id="glitch-prefix" class="glitch-el" data-text="Introducing:">Introducing:</span> <br/> <span id="glitch-title" class="glitch-el gradient-text" data-text="Permanence.">Permanence.</span></h1>
+    <p>Project Shep is a next-generation AI agent platform built around persistent, contextual memory — so every interaction builds on the last.</p>
+    <div class="scroll-hint">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4 9l4 4 4-4" stroke="#6b6b80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2 — TECH
+══════════════════════════════════════════ -->
+<section id="tech">
+  <div class="inner">
+    <h3>Under the hood</h3>
+    <h2>Memory is a <span id="glitch-s2" class="glitch-el gradient-text" data-text="first-class primitive.">first-class primitive.</span></h2>
+    <p>Most AI agents are stateless. Project Shep isn't. Our architecture treats memory as infrastructure — persistent, queryable, and always in context.</p>
+
+    <!-- Node graph GIF — hover to animate -->
+    <div class="anim-wrap" title="Hover to see memory graph">
+      <svg width="180" height="100" viewBox="0 0 180 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line class="edge edge1" x1="90" y1="50" x2="30" y2="20" stroke="#7c6af7" stroke-width="1.5"/>
+        <line class="edge edge2" x1="90" y1="50" x2="150" y2="20" stroke="#7c6af7" stroke-width="1.5"/>
+        <line class="edge edge3" x1="90" y1="50" x2="30" y2="80" stroke="#4fd1c5" stroke-width="1.5"/>
+        <line class="edge edge4" x1="90" y1="50" x2="150" y2="80" stroke="#4fd1c5" stroke-width="1.5"/>
+        <circle cx="90" cy="50" r="10" fill="#7c6af7"/>
+        <circle cx="30" cy="20" r="6" fill="#1e1e2e" stroke="#7c6af7" stroke-width="1.5"/>
+        <circle cx="150" cy="20" r="6" fill="#1e1e2e" stroke="#7c6af7" stroke-width="1.5"/>
+        <circle cx="30" cy="80" r="6" fill="#1e1e2e" stroke="#4fd1c5" stroke-width="1.5"/>
+        <circle cx="150" cy="80" r="6" fill="#1e1e2e" stroke="#4fd1c5" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <div class="tech-grid">
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="3" width="22" height="22" rx="6" stroke="#7c6af7" stroke-width="1.5"/><path d="M9 14h10M9 10h6M9 18h8" stroke="#7c6af7" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h4>Episodic Memory Store</h4>
+        <p>Every conversation is indexed and retrievable. Agents recall past context the way humans recall experiences.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="#4fd1c5" stroke-width="1.5"/><path d="M14 9v5l3 3" stroke="#4fd1c5" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h4>Temporal Awareness</h4>
+        <p>Project Shep understands when things happened — not just what — enabling time-sensitive reasoning and follow-ups. This is true knowledge rentention.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14c0-5 4-9 9-9s9 4 9 9-4 9-9 9" stroke="#7c6af7" stroke-width="1.5" stroke-linecap="round"/><path d="M5 14c0 3 2 5 5 5" stroke="#4fd1c5" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h4>Cross-Session Continuity</h4>
+        <p>No more re-explaining yourself. Project Shep picks up exactly where you left off, every single time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3 — USE CASES
+══════════════════════════════════════════ -->
+<section id="usecases">
+  <div class="inner">
+    <h3>Why it matters</h3>
+    <h2>Built for the work<br/><span id="glitch-s3" class="glitch-el gradient-text" data-text="that never stops.">that never stops.</span></h2>
+
+    <!-- Waveform GIF — hover to animate -->
+    <div class="anim-wrap" title="Hover to see activity">
+      <svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="bar b1" x="4"  y="24" width="8" height="8"  rx="2" fill="#7c6af7"/>
+        <rect class="bar b2" x="16" y="20" width="8" height="12" rx="2" fill="#7c6af7"/>
+        <rect class="bar b3" x="28" y="16" width="8" height="16" rx="2" fill="#7c6af7"/>
+        <rect class="bar b4" x="40" y="20" width="8" height="12" rx="2" fill="#4fd1c5"/>
+        <rect class="bar b5" x="52" y="12" width="8" height="20" rx="2" fill="#4fd1c5"/>
+        <rect class="bar b6" x="64" y="20" width="8" height="12" rx="2" fill="#4fd1c5"/>
+        <rect class="bar b7" x="76" y="16" width="8" height="16" rx="2" fill="#7c6af7"/>
+        <rect class="bar b8" x="88" y="22" width="8" height="10" rx="2" fill="#7c6af7"/>
+      </svg>
+    </div>
+
+    <div class="cases">
+      <div class="case">
+        <div class="case-num">01</div>
+        <div class="case-body">
+          <h4>Gaming</h4>
+          <p>The NPCs that already populate gaming worlds can make those worlds that much more realistic, enhancing player enjoyment and increasing hours played by up to 700%.</p>
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-num">02</div>
+        <div class="case-body">
+          <h4>Research & Knowledge Work</h4>
+          <p>Project Shep tracks your research threads, surfaces relevant prior findings, and connects dots across weeks of work automatically.</p>
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-num">03</div>
+        <div class="case-body">
+          <h4>Enterprise Support Agents</h4>
+          <p>Agents that remember every ticket, every customer preference, and every resolution — reducing handle time by up to 80%.</p>
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-num">04</div>
+        <div class="case-body">
+          <h4>Autonomous Workflows</h4>
+          <p>Long-running agents that maintain state across multi-day tasks without losing context or requiring human re-briefing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4 — CTA
+══════════════════════════════════════════ -->
+<section id="cta">
+  <div class="inner">
+    <!-- Typing cursor GIF — hover to reveal -->
+    <div style="opacity:0.2;transition:opacity 0.3s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.2">
+      <svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="8" y="28" font-family="monospace" font-size="14" fill="#7c6af7">shep.init(user)</text>
+        <rect class="cursor" x="148" y="10" width="2" height="18" rx="1" fill="#4fd1c5"/>
+      </svg>
+    </div>
+
+    <h2>Ready to give your<br/><span id="glitch-s4" class="glitch-el gradient-text" data-text="agents a memory?">agents a memory?</span></h2>
+    <p>Join the early access programme and be among the first teams to deploy Project Shep in production.</p>
+    <a id="glitch-btn" class="btn" href="hub.html">Request a Demo →</a>
+    <p class="fine">No commitment required. Early access is free.</p>
+  </div>
+</section>
+
+<script>
+  const RED = 'color:#ff1a1a;-webkit-text-fill-color:#ff1a1a;font-family:monospace';
+
+  function glitchSwap(spans, texts, done) {
+    spans.forEach((s, i) => {
+      s.dataset.text = texts[i];
+      s.textContent = texts[i];
+      s.classList.add('glitching');
+    });
+    setTimeout(() => {
+      spans.forEach(s => s.classList.remove('glitching'));
+      done && done();
+    }, 120);
+  }
+
+  function makeGlitchCycle(spans, normals, secrets, normalClasses, initialDelay) {
+    function cycle() {
+      glitchSwap(spans, secrets, () => {
+        spans.forEach((s, i) => { s.style.cssText = RED; s.dataset.text = secrets[i]; });
+        setTimeout(() => {
+          glitchSwap(spans, normals, () => {
+            spans.forEach((s, i) => {
+              s.style.cssText = '';
+              s.className = normalClasses[i];
+              s.dataset.text = normals[i];
+              s.textContent = normals[i];
+            });
+            setTimeout(cycle, 8000 + Math.random() * 12000);
+          });
+        }, 3000 + Math.random() * 2000);
+      });
+    }
+    setTimeout(cycle, initialDelay);
+  }
+
+  // Section 1 — two spans glitch together
+  makeGlitchCycle(
+    [document.getElementById('glitch-prefix'), document.getElementById('glitch-title')],
+    ['Introducing:', 'Permanence.'],
+    ['Wake up.', "This isn't what it seems"],
+    ['glitch-el', 'glitch-el gradient-text'],
+    1500
+  );
+
+  // Section 2
+  makeGlitchCycle(
+    [document.getElementById('glitch-s2')],
+    ['first-class primitive.'],
+    ['fickle thing. This isn\'t real.'],
+    ['glitch-el gradient-text'],
+    4000 + Math.random() * 6000
+  );
+
+  // Section 3
+  makeGlitchCycle(
+    [document.getElementById('glitch-s3')],
+    ['that never stops.'],
+    ['that will be our downfall.'],
+    ['glitch-el gradient-text'],
+    4000 + Math.random() * 6000
+  );
+
+  // Section 4
+  const s4delay = 4000 + Math.random() * 6000;
+  makeGlitchCycle(
+    [document.getElementById('glitch-s4')],
+    ['agents a memory?'],
+    ['reality a hard look and learn what this is really all about?'],
+    ['glitch-el gradient-text'],
+    s4delay
+  );
+
+  // Section 4 button
+  const btn = document.getElementById('glitch-btn');
+  function btnCycle() {
+    btn.textContent = 'Learn the truth';
+    btn.style.cssText = 'background:#ff1a1a;font-family:monospace;letter-spacing:0.04em';
+    setTimeout(() => {
+      btn.textContent = 'Request a Demo →';
+      btn.style.cssText = '';
+      setTimeout(btnCycle, 8000 + Math.random() * 12000);
+    }, 3000 + Math.random() * 2000);
+  }
+  setTimeout(btnCycle, s4delay);
+</script>
+</body>
+</html>

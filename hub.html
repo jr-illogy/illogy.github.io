@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>/mnemo/internal — restricted</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080b08;
+      --panel:    #0d110d;
+      --border:   #1a2e1a;
+      --green:    #39ff6a;
+      --green-dim:#1a7a35;
+      --red:      #ff3333;
+      --amber:    #ffb300;
+      --text:     #c8e6c8;
+      --muted:    #4a6b4a;
+      --font:     'Courier New', Courier, monospace;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      overflow: hidden;
+    }
+
+    /* scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ── Layout ── */
+    #shell {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100vh;
+    }
+
+    #topbar {
+      background: var(--green);
+      color: #000;
+      padding: 0.35rem 1rem;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #topbar .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    #main {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      overflow: hidden;
+    }
+
+    /* ── File Tree ── */
+    #filetree {
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 1rem 0;
+    }
+
+    .tree-header {
+      padding: 0 1rem 0.75rem;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+
+    .tree-folder {
+      padding: 0.3rem 1rem;
+      color: var(--amber);
+      cursor: default;
+      user-select: none;
+    }
+    .tree-folder::before { content: '▶ '; font-size: 9px; }
+
+    .tree-item {
+      padding: 0.3rem 1rem 0.3rem 2rem;
+      cursor: pointer;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.15s, color 0.15s;
+      border-left: 2px solid transparent;
+    }
+    .tree-item:hover { background: #0f1f0f; color: var(--green); }
+    .tree-item.active {
+      background: #0f1f0f;
+      color: var(--green);
+      border-left-color: var(--green);
+    }
+    .tree-item .icon { font-size: 11px; opacity: 0.7; }
+    .tree-item .fname { flex: 1; }
+    .tree-item .badge {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 2px;
+      background: var(--green-dim);
+      color: var(--green);
+    }
+    .tree-item .badge.red { background: #3a0a0a; color: var(--red); }
+
+    /* ── Content Panel ── */
+    #content {
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .pane { display: none; }
+    .pane.active { display: block; }
+
+    .pane-header {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+    .pane-title {
+      color: var(--green);
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    .pane-meta {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pane-body { line-height: 1.8; color: var(--text); }
+    .pane-body p { margin-bottom: 1rem; max-width: 680px; }
+
+    /* prompt line */
+    .prompt {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-size: 11px;
+    }
+    .prompt span { color: var(--green); }
+
+    /* ── Welcome pane ── */
+    #pane-welcome pre {
+      color: var(--green-dim);
+      font-size: 11px;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+      white-space: pre;
+    }
+    .warn {
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 0.6rem 1rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Chess board ── */
+    #board {
+      display: grid;
+      grid-template-columns: repeat(8, 48px);
+      grid-template-rows: repeat(8, 48px);
+      border: 2px solid var(--green-dim);
+      width: fit-content;
+      margin-bottom: 1.5rem;
+    }
+    .sq {
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      line-height: 1;
+      user-select: none;
+    }
+    .sq.light { background: #1a2e1a; }
+    .sq.dark  { background: #0d160d; }
+    .sq.highlight { outline: 2px solid var(--red); outline-offset: -2px; }
+    .board-note {
+      color: var(--muted);
+      font-size: 11px;
+      max-width: 400px;
+      line-height: 1.7;
+    }
+    .board-note span { color: var(--red); }
+
+    /* ── Menu image ── */
+    .menu-frame {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: #f5f0e8;
+      color: #1a1a1a;
+      max-width: 520px;
+      font-family: Georgia, serif;
+      margin-bottom: 1rem;
+    }
+    .menu-frame h2 {
+      font-size: 1.6rem;
+      text-align: center;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.2rem;
+      font-style: italic;
+    }
+    .menu-frame .subtitle {
+      text-align: center;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #ccc;
+    }
+    .menu-section { margin-bottom: 1.2rem; }
+    .menu-section h3 {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.6rem;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+    .menu-item .dots {
+      flex: 1;
+      border-bottom: 1px dotted #bbb;
+      margin: 0 0.5rem;
+      margin-bottom: 4px;
+    }
+    .menu-item .price { color: #333; font-size: 0.85rem; }
+    .menu-item .desc { font-size: 0.75rem; color: #666; font-style: italic; display: block; margin-top: -0.2rem; margin-bottom: 0.3rem; }
+    .menu-stamp {
+      text-align: center;
+      font-size: 0.65rem;
+      color: #aaa;
+      letter-spacing: 0.15em;
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid #ccc;
+    }
+
+    /* ── YouTube embed ── */
+    .yt-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+      aspect-ratio: 16/9;
+      border: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+    .yt-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    /* ── Web links ── */
+    .link-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+      max-width: 560px;
+      transition: border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .link-card:hover { border-color: var(--green); }
+    .link-card .lc-icon { font-size: 1.4rem; margin-top: 2px; }
+    .link-card .lc-body {}
+    .link-card .lc-title { color: var(--green); margin-bottom: 0.2rem; }
+    .link-card .lc-url { color: var(--muted); font-size: 11px; word-break: break-all; }
+    .link-card .lc-desc { color: var(--text); font-size: 11px; margin-top: 0.3rem; line-height: 1.6; }
+
+    /* ── Locked file ── */
+    .tree-item.locked { color: var(--red); opacity: 0.7; }
+    .tree-item.locked:hover { color: var(--red); opacity: 1; background: #1a0a0a; }
+    .tree-item.locked.active { background: #1a0a0a; color: var(--red); border-left-color: var(--red); opacity: 1; }
+    .tree-divider { border-top: 1px solid var(--border); margin: 0.5rem 0; }
+    #decrypt-form { margin-top: 1.5rem; max-width: 560px; }
+    .terminal-line {
+      display: flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border); padding: 0.6rem 1rem; background: #050805;
+    }
+    .terminal-line .tl-prompt { color: var(--muted); white-space: nowrap; }
+    .terminal-line input {
+      flex: 1; background: transparent; border: none; outline: none;
+      color: var(--green); font-family: var(--font); font-size: 13px;
+      caret-color: var(--green); letter-spacing: 0.05em;
+    }
+    .terminal-line input::placeholder { color: var(--muted); }
+    #decrypt-response { margin-top: 0.75rem; font-size: 12px; min-height: 1.4rem; letter-spacing: 0.04em; }
+    #decrypt-response.denied  { color: var(--red); }
+    #decrypt-response.granted { color: var(--green); }
+    @keyframes glitch-reveal {
+      0%   { opacity:0; clip-path: inset(60% 0 30% 0); transform: translateX(-8px); }
+      20%  { opacity:1; clip-path: inset(10% 0 80% 0); transform: translateX(6px); }
+      40%  { clip-path: inset(80% 0 5%  0); transform: translateX(-4px); }
+      60%  { clip-path: inset(20% 0 60% 0); transform: translateX(4px); }
+      80%  { clip-path: inset(5%  0 90% 0); transform: translateX(-2px); }
+      100% { clip-path: inset(0% 0 0% 0);  transform: translateX(0); opacity: 1; }
+    }
+    .glitch-in { animation: glitch-reveal 0.5s steps(1) forwards; }
+    #unlocked-content { display: none; margin-top: 1.5rem; }
+    #unlocked-content.visible { display: block; }
+    #unlocked-content p { margin-bottom: 1rem; max-width: 620px; line-height: 1.8; }
+    #unlocked-content .final-stamp {
+      margin-top: 2rem; color: var(--red); border: 1px solid var(--red);
+      padding: 1rem 1.5rem; font-size: 12px; line-height: 1.9; max-width: 560px;
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--green-dim); }
+  </style>
+</head>
+<body>
+<div id="shell">
+
+  <div id="topbar">
+    <span>PROJECT SHEP INTERNAL — /hub/restricted/access — SESSION ACTIVE</span>
+    <span><span class="blink">█</span> UNAUTHORISED ACCESS DETECTED</span>
+  </div>
+
+  <div id="main">
+
+    <!-- ══ FILE TREE ══ -->
+    <div id="filetree">
+      <div class="tree-header">/ project_shep / internal</div>
+
+      <div class="tree-folder">system</div>
+      <div class="tree-item active" data-pane="pane-welcome">
+        <span class="icon">📄</span>
+        <span class="fname">README.txt</span>
+        <span class="badge">open</span>
+      </div>
+
+      <div class="tree-folder">assets</div>
+      <div class="tree-item" data-pane="pane-chess">
+        <span class="icon">♟</span>
+        <span class="fname">board_state_final.fen</span>
+      </div>
+      <div class="tree-item" data-pane="pane-menu">
+        <span class="icon">🍽</span>
+        <span class="fname">au_demain_menu.png</span>
+      </div>
+      <div class="tree-item" data-pane="pane-video">
+        <span class="icon">▶</span>
+        <span class="fname">transmission_01.mp4</span>
+        <span class="badge red">enc</span>
+      </div>
+
+      <div class="tree-divider"></div>
+      <div class="tree-folder" style="color:var(--red)">classified</div>
+      <div class="tree-item locked" data-pane="pane-locked">
+        <span class="icon">🔒</span>
+        <span class="fname">classified_final.enc</span>
+        <span class="badge red">locked</span>
+      </div>
+      <div class="tree-divider"></div>
+
+      <div class="tree-folder">refs</div>
+      <div class="tree-item" data-pane="pane-link1">
+        <span class="icon">🔗</span>
+        <span class="fname">ref_001.url</span>
+      </div>
+      <div class="tree-item" data-pane="pane-link2">
+        <span class="icon">🔗</span>
+        <span class="fname">ref_002.url</span>
+      </div>
+      <div class="tree-item" data-pane="pane-link3">
+        <span class="icon">🔗</span>
+        <span class="fname">ref_003.url</span>
+      </div>
+      <div class="tree-item" data-pane="pane-link4">
+        <span class="icon">🔗</span>
+        <span class="fname">ref_004.url</span>
+      </div>
+    </div>
+
+    <!-- ══ CONTENT PANEL ══ -->
+    <div id="content">
+
+      <!-- WELCOME -->
+      <div id="pane-welcome" class="pane active">
+        <div class="prompt">&gt; cat <span>README.txt</span></div>
+        <pre>
+ ██████╗  █████╗ ███████╗████████╗██╗   ██╗██████╗ ███████╗
+ ██╔══██╗██╔══██╗██╔════╝╚══██╔══╝██║   ██║██╔══██╗██╔════╝
+ ██████╔╝███████║███████╗   ██║   ██║   ██║██████╔╝█████╗
+ ██╔═══╝ ██╔══██║╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝
+ ██║     ██║  ██║███████║   ██║   ╚██████╔╝██║  ██║███████╗
+ ╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
+        </pre>
+        <div class="warn">⚠ WARNING: THIS DIRECTORY IS NOT PART OF THE PUBLIC RELEASE.</div>
+        <div class="pane-body">
+          <p>If you are reading this, you followed the right thread. The product you were shown is real. What it is <em style="color:var(--red)">for</em> is not what you were told.</p>
+          <p>This directory contains the materials we were not supposed to leave behind. Browse carefully. Some of it is noise. Some of it is not.</p>
+          <p style="color:var(--muted)">— last modified: [REDACTED] &nbsp;|&nbsp; owner: shep_admin &nbsp;|&nbsp; clearance: none required, apparently</p>
+        </div>
+      </div>
+
+      <!-- CHESS -->
+      <div id="pane-chess" class="pane">
+        <div class="prompt">&gt; open <span>board_state_final.fen</span></div>
+        <div class="pane-title">board_state_final.fen</div>
+        <div class="pane-meta">FEN: r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4 &nbsp;|&nbsp; annotated by: unknown</div>
+        <div id="board"></div>
+        <div class="board-note">
+          Position reached after 3 moves. <span>White's bishop on c4 is watching f7.</span><br/>
+          This is not a game record. This is a message.<br/><br/>
+          <span style="color:var(--muted)">Cross-reference with ref_003.url.</span>
+        </div>
+      </div>
+
+      <!-- MENU -->
+      <div id="pane-menu" class="pane">
+        <div class="prompt">&gt; open <span>au_demain_menu.png</span></div>
+        <div class="pane-title">au_demain_menu.png</div>
+        <div class="pane-meta">filetype: image/png &nbsp;|&nbsp; rendered as: text fallback &nbsp;|&nbsp; location: [REDACTED], Paris 11e</div>
+        <div class="menu-frame">
+          <h2>Au Demain</h2>
+          <div class="subtitle">Brasserie · Depuis 1987</div>
+
+          <div class="menu-section">
+            <h3>Entrées</h3>
+            <div class="menu-item">
+              <span>Soupe à l'oignon gratinée</span><span class="dots"></span><span class="price">9</span>
+            </div>
+            <div class="menu-item">
+              <span>Terrine de campagne, cornichons</span><span class="dots"></span><span class="price">11</span>
+            </div>
+            <div class="menu-item">
+              <span>Œufs mimosa, ciboulette</span><span class="dots"></span><span class="price">8</span>
+            </div>
+            <div class="menu-item">
+              <span style="color:#c00">Salade Shep <em style="font-size:0.7rem">(spécialité)</em></span><span class="dots"></span><span class="price">13</span>
+              <span class="desc">endives, noix, roquefort, poire — demandez au serveur</span>
+            </div>
+          </div>
+
+          <div class="menu-section">
+            <h3>Plats</h3>
+            <div class="menu-item">
+              <span>Steak frites, beurre maître d'hôtel</span><span class="dots"></span><span class="price">22</span>
+            </div>
+            <div class="menu-item">
+              <span>Poulet rôti, jus de volaille</span><span class="dots"></span><span class="price">19</span>
+            </div>
+            <div class="menu-item">
+              <span>Sole meunière, haricots verts</span><span class="dots"></span><span class="price">26</span>
+            </div>
+            <div class="menu-item">
+              <span>Risotto du jour</span><span class="dots"></span><span class="price">17</span>
+            </div>
+          </div>
+
+          <div class="menu-section">
+            <h3>Desserts</h3>
+            <div class="menu-item">
+              <span>Crème brûlée à la vanille</span><span class="dots"></span><span class="price">8</span>
+            </div>
+            <div class="menu-item">
+              <span>Tarte tatin, crème fraîche</span><span class="dots"></span><span class="price">9</span>
+            </div>
+            <div class="menu-item">
+              <span>Mousse au chocolat</span><span class="dots"></span><span class="price">7</span>
+            </div>
+          </div>
+
+          <div class="menu-stamp">
+            Service compris · Ouvert tous les jours · Réservations: +33 1 XX XX XX XX<br/>
+            <span style="color:#c00;font-size:0.6rem">TABLE 14 — RESERVED INDEFINITELY</span>
+          </div>
+        </div>
+        <p style="color:var(--muted);font-size:11px">Why does a Paris brasserie have a standing reservation under the name "Shep"? We don't know either.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div id="pane-video" class="pane">
+        <div class="prompt">&gt; open <span>transmission_01.mp4</span> --decrypt</div>
+        <div class="pane-title">transmission_01.mp4</div>
+        <div class="pane-meta">status: partially decrypted &nbsp;|&nbsp; source: unknown &nbsp;|&nbsp; duration: unknown</div>
+        <div class="yt-wrap">
+          <!-- Replace VIDEO_ID with the actual YouTube video ID -->
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+        </div>
+        <p style="color:var(--muted);font-size:11px;max-width:560px">Recovered from a deleted internal channel. We cannot verify its origin. Watch it in full.</p>
+      </div>
+
+      <!-- LINK 1 -->
+      <div id="pane-link1" class="pane">
+        <div class="prompt">&gt; open <span>ref_001.url</span></div>
+        <div class="pane-title">ref_001.url</div>
+        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: unverified</div>
+        <a class="link-card" href="https://REPLACE_URL_1" target="_blank" rel="noopener">
+          <span class="lc-icon">🔗</span>
+          <div class="lc-body">
+            <div class="lc-title">Reference 001</div>
+            <div class="lc-url">https://REPLACE_URL_1</div>
+            <div class="lc-desc">[Replace this description with context about what this link contains and why it matters to the story.]</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- LINK 2 -->
+      <div id="pane-link2" class="pane">
+        <div class="prompt">&gt; open <span>ref_002.url</span></div>
+        <div class="pane-title">ref_002.url</div>
+        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: unverified</div>
+        <a class="link-card" href="https://REPLACE_URL_2" target="_blank" rel="noopener">
+          <span class="lc-icon">🔗</span>
+          <div class="lc-body">
+            <div class="lc-title">Reference 002</div>
+            <div class="lc-url">https://REPLACE_URL_2</div>
+            <div class="lc-desc">[Replace this description with context about what this link contains and why it matters to the story.]</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- LINK 3 -->
+      <div id="pane-link3" class="pane">
+        <div class="prompt">&gt; open <span>ref_003.url</span></div>
+        <div class="pane-title">ref_003.url</div>
+        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: unverified</div>
+        <a class="link-card" href="https://REPLACE_URL_3" target="_blank" rel="noopener">
+          <span class="lc-icon">🔗</span>
+          <div class="lc-body">
+            <div class="lc-title">Reference 003</div>
+            <div class="lc-url">https://REPLACE_URL_3</div>
+            <div class="lc-desc">[Replace this description with context about what this link contains and why it matters to the story.]</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- LINK 4 -->
+      <div id="pane-link4" class="pane">
+        <div class="prompt">&gt; open <span>ref_004.url</span></div>
+        <div class="pane-title">ref_004.url</div>
+        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: unverified</div>
+        <a class="link-card" href="https://REPLACE_URL_4" target="_blank" rel="noopener">
+          <span class="lc-icon">🔗</span>
+          <div class="lc-body">
+            <div class="lc-title">Reference 004</div>
+            <div class="lc-url">https://REPLACE_URL_4</div>
+            <div class="lc-desc">[Replace this description with context about what this link contains and why it matters to the story.]</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- LOCKED FILE -->
+      <div id="pane-locked" class="pane">
+        <div class="prompt">&gt; open <span style="color:var(--red)">classified_final.enc</span></div>
+        <div class="pane-title" style="color:var(--red)">classified_final.enc</div>
+        <div class="pane-meta" style="color:var(--red);border-color:#3a0a0a">encryption: AES-256 &nbsp;|&nbsp; clearance: LEVEL 5 &nbsp;|&nbsp; attempts logged: yes</div>
+        <div class="pane-body">
+          <p>This file is encrypted. A decryption key is required to proceed.</p>
+          <p style="color:var(--muted)">If you have found the key, enter it below. If you haven't — keep looking.</p>
+        </div>
+        <div id="decrypt-form">
+          <div class="terminal-line">
+            <span class="tl-prompt">&gt; decrypt classified_final.enc --key</span>
+            <input id="key-input" type="text" placeholder="____________" autocomplete="off" spellcheck="false" />
+          </div>
+          <div id="decrypt-response"></div>
+        </div>
+        <div id="unlocked-content">
+          <div class="pane-meta" style="margin-top:1rem;border-color:var(--green)">decryption successful &nbsp;|&nbsp; <span style="color:var(--green)">access granted</span></div>
+          <p>You found it. This is the end of the thread — or the beginning of the real one.</p>
+          <p>Project Shep was never a product. It was a test. The memory isn't stored in the cloud. It's stored in you. Every page you read, every clue you followed — that was the demonstration.</p>
+          <p style="color:var(--muted)">The question was never whether an AI could remember. The question was whether <em style="color:var(--text)">you</em> would.</p>
+          <div class="final-stamp">
+            CASE FILE: CLOSED<br/>
+            SUBJECT: AWARE<br/>
+            NEXT CONTACT: [PENDING]<br/><br/>
+            <span style="color:var(--muted)">— shep_admin</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+  // ── File tree navigation ──
+  document.querySelectorAll('.tree-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      document.getElementById(item.dataset.pane).classList.add('active');
+    });
+  });
+
+  // ── Locked file password ──
+  const PASSWORD = 'TABLE14'; // change this to your actual password
+  const keyInput = document.getElementById('key-input');
+  const response = document.getElementById('decrypt-response');
+  const unlocked = document.getElementById('unlocked-content');
+  let denied = false;
+
+  keyInput.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const val = keyInput.value.trim().toUpperCase();
+    if (val === PASSWORD) {
+      response.className = 'granted';
+      response.textContent = '> decryption successful. loading classified_final.enc...';
+      keyInput.disabled = true;
+      setTimeout(() => {
+        unlocked.classList.add('visible');
+        // glitch each child in sequentially
+        [...unlocked.children].forEach((el, i) => {
+          setTimeout(() => { el.classList.add('glitch-in'); }, i * 180);
+        });
+      }, 800);
+    } else {
+      if (denied) return;
+      denied = true;
+      response.className = 'denied';
+      // rapid-fire wrong attempts effect
+      const msgs = [
+        '> ERROR: invalid key',
+        '> ACCESS DENIED',
+        '> attempt logged',
+        '> ...',
+      ];
+      let mi = 0;
+      const iv = setInterval(() => {
+        response.textContent = msgs[mi++];
+        if (mi >= msgs.length) {
+          clearInterval(iv);
+          setTimeout(() => { response.textContent = ''; denied = false; }, 1200);
+        }
+      }, 120);
+      keyInput.value = '';
+    }
+  });
+
+
+  // FEN: r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R
+  const FEN = 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R';
+  const PIECES = {
+    r:'♜', n:'♞', b:'♝', q:'♛', k:'♚', p:'♟',
+    R:'♖', N:'♘', B:'♗', Q:'♕', K:'♔', P:'♙'
+  };
+  // squares to highlight (0-indexed, row-major from rank 8)
+  const HIGHLIGHTS = [
+    2,  // c8 — black bishop
+    26, // c4 — white bishop (row 4 = index 24+2)
+    55  // f2 — f7 target square (rank 2 from white's perspective = row index 6, file f=5 → 48+5=53... recalc below)
+  ];
+
+  const board = document.getElementById('board');
+  const rows = FEN.split('/');
+  // highlight set: c8=2, c4=26 (rank5,file3 → row3*8+2=26), f7=13 (rank7,file6 → row1*8+5=13)
+  const hlSet = new Set([2, 13, 26]);
+
+  rows.forEach((row, ri) => {
+    let fi = 0;
+    for (const ch of row) {
+      if (/\d/.test(ch)) {
+        for (let e = 0; e < +ch; e++) {
+          const sq = document.createElement('div');
+          sq.className = 'sq ' + ((ri + fi) % 2 === 0 ? 'light' : 'dark');
+          if (hlSet.has(ri * 8 + fi)) sq.classList.add('highlight');
+          board.appendChild(sq);
+          fi++;
+        }
+      } else {
+        const sq = document.createElement('div');
+        sq.className = 'sq ' + ((ri + fi) % 2 === 0 ? 'light' : 'dark');
+        if (hlSet.has(ri * 8 + fi)) sq.classList.add('highlight');
+        sq.textContent = PIECES[ch] || '';
+        // colour pieces
+        sq.style.color = ch === ch.toUpperCase() ? '#c8e6c8' : '#4a6b4a';
+        board.appendChild(sq);
+        fi++;
+      }
+    }
+  });
+</script>
+</body>
+</html>
