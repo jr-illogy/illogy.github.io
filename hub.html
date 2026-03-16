@@ -622,16 +622,23 @@
   });
 
   // ── Locked file password ──
-  const PASSWORD = 'TABLE14'; // change this to your actual password
+  // To update the password: run this in a browser console and replace the hash below:
+  // crypto.subtle.digest('SHA-256', new TextEncoder().encode('YOURPASSWORD')).then(b => console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))
+  const PASSWORD_HASH = 'e5a00bb975c4aa4f38ddb1f1a5c3c8e5a7b1e2f3d4c5b6a7988776655443322'; // replace with your real hash
+
+  async function checkPassword(input) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input.trim().toUpperCase()));
+    return [...new Uint8Array(buf)].map(x => x.toString(16).padStart(2, '0')).join('') === PASSWORD_HASH;
+  }
   const keyInput = document.getElementById('key-input');
   const response = document.getElementById('decrypt-response');
   const unlocked = document.getElementById('unlocked-content');
   let denied = false;
 
-  keyInput.addEventListener('keydown', e => {
+  keyInput.addEventListener('keydown', async e => {
     if (e.key !== 'Enter') return;
-    const val = keyInput.value.trim().toUpperCase();
-    if (val === PASSWORD) {
+    const correct = await checkPassword(keyInput.value);
+    if (correct) {
       response.className = 'granted';
       response.textContent = '> decryption successful. loading classified_final.enc...';
       keyInput.disabled = true;
