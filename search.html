@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>/mnemo/personnel_search — restricted</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080b08;
+      --border:   #1a2e1a;
+      --green:    #39ff6a;
+      --green-dim:#1a7a35;
+      --red:      #ff3333;
+      --amber:    #ffb300;
+      --text:     #c8e6c8;
+      --muted:    #4a6b4a;
+      --font:     'Courier New', Courier, monospace;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 2px,
+        rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #topbar {
+      background: var(--green);
+      color: #000;
+      padding: 0.35rem 1rem;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    #shell {
+      max-width: 720px;
+      margin: 4rem auto;
+      padding: 0 2rem 4rem;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 11px;
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back:hover { color: var(--green); }
+
+    h1 {
+      color: var(--green);
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .field-label {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .terminal-line {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      background: #050805;
+      max-width: 480px;
+    }
+    .terminal-line .tl-prompt { color: var(--muted); white-space: nowrap; }
+    .terminal-line input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--green);
+      font-family: var(--font);
+      font-size: 13px;
+      caret-color: var(--green);
+      letter-spacing: 0.05em;
+    }
+    .terminal-line input::placeholder { color: var(--muted); }
+
+    #search-status {
+      margin-top: 0.75rem;
+      font-size: 11px;
+      color: var(--muted);
+      min-height: 1.4rem;
+      letter-spacing: 0.04em;
+    }
+    #search-status.denied { color: var(--red); }
+    #search-status.found  { color: var(--green); }
+
+    /* ── Result document ── */
+    #result { display: none; margin-top: 2rem; }
+    #result.visible { display: block; }
+
+    @keyframes glitch-reveal {
+      0%   { opacity:0; clip-path: inset(60% 0 30% 0); transform: translateX(-8px); }
+      20%  { opacity:1; clip-path: inset(10% 0 80% 0); transform: translateX(6px); }
+      40%  { clip-path: inset(80% 0 5%  0); transform: translateX(-4px); }
+      60%  { clip-path: inset(20% 0 60% 0); transform: translateX(4px); }
+      80%  { clip-path: inset(5%  0 90% 0); transform: translateX(-2px); }
+      100% { clip-path: inset(0% 0 0% 0);  transform: translateX(0); opacity: 1; }
+    }
+    .glitch-in { animation: glitch-reveal 0.45s steps(1) forwards; }
+
+    .doc {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      max-width: 600px;
+      line-height: 1.85;
+    }
+    .doc-header {
+      color: var(--amber);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-field { margin-bottom: 0.6rem; }
+    .doc-field .key { color: var(--muted); display: inline-block; min-width: 140px; }
+    .doc-field .val { color: var(--text); }
+    .doc-field .val.red { color: var(--red); }
+    .doc-field .val.amber { color: var(--amber); }
+    .doc-body {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.9;
+    }
+    .doc-body p { margin-bottom: 0.75rem; }
+    .doc-footer {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="topbar">
+  <span>PROJECT SHEP INTERNAL — personnel_search.exe — v0.4.1</span>
+  <span><span class="blink">█</span> RUNNING</span>
+</div>
+
+<div id="shell">
+  <a class="back" href="hub.html">← back to /hub</a>
+
+  <h1>PERSONNEL SEARCH</h1>
+  <div class="subtitle">
+    CLASSIFICATION: RESTRICTED &nbsp;|&nbsp; AUTHORISED QUERIES ONLY &nbsp;|&nbsp; ALL SEARCHES LOGGED
+  </div>
+
+  <div class="field-label">Passphrase</div>
+  <div class="terminal-line">
+    <span class="tl-prompt">&gt; query --name</span>
+    <input id="search-input" type="text" placeholder="enter passphrase" autocomplete="off" spellcheck="false" />
+  </div>
+  <div id="search-status"></div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+  const RECORDS = {
+    VELVETEEN: {
+      header: 'PERSONNEL FILE — CODENAME: VELVETEEN',
+      fields: [
+        { key: 'Codename',       val: 'VELVETEEN',          cls: '' },
+        { key: 'Status',         val: 'ACTIVE — UNCONTACTABLE', cls: 'amber' },
+        { key: 'Intake',         val: 'Cohort 01',          cls: '' },
+        { key: 'Clearance',      val: 'Level 4 (revoked)',  cls: 'red' },
+        { key: 'Last known loc', val: '[REDACTED]',         cls: 'red' },
+        { key: 'NDA signed',     val: 'Yes — 14 March',     cls: '' },
+      ],
+      body: [
+        'First subject to complete the full Shep integration protocol. Showed anomalous retention scores from week two onward.',
+        'Raised concerns internally about the scope of data collection. Concerns were logged and dismissed.',
+        'Disappeared from contact records approximately six weeks after the final session. No formal exit interview on file.',
+        'Cross-reference: board_state_final.fen — the annotation is hers.',
+      ],
+      footer: 'FILE LAST ACCESSED: [REDACTED] — NEXT REVIEW: OVERDUE'
+    },
+    ROGERS: {
+      header: 'PERSONNEL FILE — CODENAME: ROGERS',
+      fields: [
+        { key: 'Codename',       val: 'ROGERS',             cls: '' },
+        { key: 'Status',         val: 'TERMINATED',         cls: 'red' },
+        { key: 'Intake',         val: 'Cohort 01',          cls: '' },
+        { key: 'Clearance',      val: 'Level 3',            cls: '' },
+        { key: 'Last known loc', val: 'Paris, FR',          cls: '' },
+        { key: 'NDA signed',     val: 'Yes — 14 March',     cls: '' },
+      ],
+      body: [
+        'Recruited as a secondary observer. Role was to document subject responses without direct participation in the protocol.',
+        'Began participating directly in sessions from week four. This was not authorised.',
+        'Termination of contract followed discovery of an unauthorised external communication. Contents of communication: unknown.',
+        'Standing reservation at Au Demain, Paris 11e, under the project name. We do not know who made it or why it persists.',
+      ],
+      footer: 'FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED'
+    },
+    MOOVER: {
+      header: 'PERSONNEL FILE — CODENAME: MOOVER',
+      fields: [
+        { key: 'Codename',       val: 'MOOVER',             cls: '' },
+        { key: 'Status',         val: 'UNKNOWN',            cls: 'amber' },
+        { key: 'Intake',         val: 'Cohort 01',          cls: '' },
+        { key: 'Clearance',      val: 'Level 5',            cls: 'red' },
+        { key: 'Last known loc', val: '[CLASSIFIED]',       cls: 'red' },
+        { key: 'NDA signed',     val: 'Yes — 14 March',     cls: '' },
+      ],
+      body: [
+        'We never fully understood what Moover\'s role was. The intake documentation lists them as "systems oversight" but no further detail exists.',
+        'Level 5 clearance was not assigned by any member of the team we have been able to identify.',
+        'The only trace of Moover in the project record is a single annotation in the transmission log: "it worked."',
+        'Do not attempt direct contact. If Moover reaches out to you first — that means you\'ve gone far enough.',
+      ],
+      footer: 'FILE LAST ACCESSED: [CLASSIFIED] — FURTHER QUERIES: RESTRICTED'
+    }
+  };
+
+  const input  = document.getElementById('search-input');
+  const status = document.getElementById('search-status');
+  const result = document.getElementById('result');
+
+  input.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const key = input.value.trim().toUpperCase();
+    const record = RECORDS[key];
+
+    result.classList.remove('visible');
+    result.innerHTML = '';
+
+    if (!key) return;
+
+    if (!record) {
+      status.className = 'denied';
+      status.textContent = '> no information on file.';
+      return;
+    }
+
+    status.className = 'found';
+    status.textContent = '> record found. decrypting...';
+
+    setTimeout(() => {
+      const doc = buildDoc(record);
+      result.appendChild(doc);
+      result.classList.add('visible');
+      [...doc.children].forEach((el, i) => {
+        setTimeout(() => el.classList.add('glitch-in'), i * 150);
+      });
+    }, 600);
+  });
+
+  function buildDoc(r) {
+    const doc = document.createElement('div');
+    doc.className = 'doc';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'doc-header';
+    hdr.textContent = r.header;
+    doc.appendChild(hdr);
+
+    r.fields.forEach(f => {
+      const row = document.createElement('div');
+      row.className = 'doc-field';
+      row.innerHTML = `<span class="key">${f.key}:</span> <span class="val ${f.cls}">${f.val}</span>`;
+      doc.appendChild(row);
+    });
+
+    const body = document.createElement('div');
+    body.className = 'doc-body';
+    r.body.forEach(line => {
+      const p = document.createElement('p');
+      p.textContent = '> ' + line;
+      body.appendChild(p);
+    });
+    doc.appendChild(body);
+
+    const footer = document.createElement('div');
+    footer.className = 'doc-footer';
+    footer.textContent = r.footer;
+    doc.appendChild(footer);
+
+    return doc;
+  }
+</script>
+</body>
+</html>
