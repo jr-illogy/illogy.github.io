@@ -381,8 +381,23 @@
   function triggerPenrose() {
     const el = document.getElementById('penrose-overlay');
     el.classList.remove('flash');
-    void el.offsetWidth; // force reflow to restart animation
+    void el.offsetWidth;
     el.classList.add('flash');
+
+    // Web Audio hum — fades in to peak then out over 1.5s
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = 60; // low electrical hum
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.75);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.5);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 1.55);
+    osc.onended = () => ctx.close();
   }
   const RED = 'color:#ff1a1a;-webkit-text-fill-color:#ff1a1a;font-family:monospace';
 
