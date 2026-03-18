@@ -123,9 +123,24 @@
     .anim-wrap:hover svg { opacity: 1; }
 
     /* Hero floating orb */
-    .orb-wrap { position: relative; height: 120px; margin-bottom: -1rem; }
+    .orb-wrap { position: relative; height: 120px; margin-bottom: -1rem; cursor: pointer; }
     .orb-wrap svg { position: absolute; right: 0; top: 0; opacity: 0.25; transition: opacity 0.4s; }
     .orb-wrap:hover svg { opacity: 1; }
+
+    #penrose-overlay {
+      position: fixed;
+      inset: 0;
+      background: url('ref/penrose-triangle.png') center/contain no-repeat;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 998;
+    }
+    @keyframes penrose-flash {
+      0%   { opacity: 0; }
+      50%  { opacity: 0.6; }
+      100% { opacity: 0; }
+    }
+    #penrose-overlay.flash { animation: penrose-flash 1.5s ease-in-out forwards; }
 
     /* pulse ring animation */
     @keyframes pulse-ring { 0%{r:18;opacity:0.8} 100%{r:48;opacity:0} }
@@ -214,7 +229,7 @@
 ══════════════════════════════════════════ -->
 <section id="hero">
   <div class="inner">
-    <div class="orb-wrap" title="Hover me">
+    <div class="orb-wrap" title="Hover me" onclick="triggerPenrose()">
       <!-- Pulse orb — hover to reveal -->
       <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle class="pulse-ring" cx="50" cy="50" r="18" stroke="#7c6af7" stroke-width="1.5" fill="none"/>
@@ -360,7 +375,15 @@
   </div>
 </section>
 
+<div id="penrose-overlay"></div>
+
 <script>
+  function triggerPenrose() {
+    const el = document.getElementById('penrose-overlay');
+    el.classList.remove('flash');
+    void el.offsetWidth; // force reflow to restart animation
+    el.classList.add('flash');
+  }
   const RED = 'color:#ff1a1a;-webkit-text-fill-color:#ff1a1a;font-family:monospace';
 
   function glitchSwap(spans, texts, done) {

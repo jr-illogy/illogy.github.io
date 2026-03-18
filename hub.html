@@ -381,9 +381,13 @@
         <span class="icon">🍽</span>
         <span class="fname">au_demain_menu.png</span>
       </div>
+      <div class="tree-item" data-pane="pane-relativity">
+        <span class="icon">🖼</span>
+        <span class="fname">relativity.png</span>
+      </div>
       <div class="tree-item" data-pane="pane-video">
         <span class="icon">▶</span>
-        <span class="fname">transmission_01.mp4</span>
+        <span class="fname">goingDownTheRabbitHole.mp4</span>
         <span class="badge red">enc</span>
       </div>
 
@@ -403,7 +407,7 @@
       </div>
       <div class="tree-item" data-pane="pane-link2">
         <span class="icon">🔗</span>
-        <span class="fname">ref_002.url</span>
+        <span class="fname">sitr.mov</span>
       </div>
       <div class="tree-item" data-pane="pane-link3">
         <span class="icon">🔗</span>
@@ -463,6 +467,14 @@
           This is not a game record. This is a message.<br/><br/>
           <span style="color:var(--muted)">Cross-reference with ref_003.url.</span>
         </div>
+      </div>
+
+      <!-- RELATIVITY -->
+      <div id="pane-relativity" class="pane">
+        <div class="prompt">&gt; open <span>relativity.png</span></div>
+        <div class="pane-title">relativity.png</div>
+        <div class="pane-meta">filetype: image/png &nbsp;|&nbsp; source: ref/ &nbsp;|&nbsp; origin: unknown</div>
+        <img src="ref/relativity.png" alt="relativity.png" style="max-width:100%;border:1px solid var(--border);display:block;" />
       </div>
 
       <!-- MENU -->
@@ -530,8 +542,8 @@
 
       <!-- VIDEO -->
       <div id="pane-video" class="pane">
-        <div class="prompt">&gt; open <span>transmission_01.mp4</span> --decrypt</div>
-        <div class="pane-title">transmission_01.mp4</div>
+        <div class="prompt">&gt; open <span>goingDownTheRabbitHole.mp4</span> --decrypt</div>
+        <div class="pane-title">goingDownTheRabbitHole.mp4</div>
         <div class="pane-meta">status: partially decrypted &nbsp;|&nbsp; source: unknown &nbsp;|&nbsp; duration: unknown</div>
         <div class="yt-wrap">
           <!-- Replace VIDEO_ID with the actual YouTube video ID -->
@@ -544,7 +556,7 @@
       <div id="pane-link1" class="pane">
         <div class="prompt">&gt; open <span>velveteen.html</span></div>
         <div class="pane-title">velveteen.html</div>
-        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: negative</div>
+        <div class="pane-meta">type: external reference document &nbsp;|&nbsp; trust: negative</div>
         <a class="link-card" href="https://archive.org/details/velveteenrabbito00bian/page/4/mode/2up" target="_blank" rel="noopener">
           <span class="lc-icon">🔗</span>
           <div class="lc-body">
@@ -557,30 +569,30 @@
 
       <!-- LINK 2 -->
       <div id="pane-link2" class="pane">
-        <div class="prompt">&gt; open <span>ref_002.url</span></div>
-        <div class="pane-title">ref_002.url</div>
-        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: unverified</div>
-        <a class="link-card" href="https://REPLACE_URL_2" target="_blank" rel="noopener">
+        <div class="prompt">&gt; open <span>sitr.mov</span></div>
+        <div class="pane-title">sitr.mov</div>
+        <div class="pane-meta">type: external reference video &nbsp;|&nbsp; trust: verified</div>
+        <a class="link-card" href="https://www.youtube.com/watch?v=OmrUJ3ssLPM" target="_blank" rel="noopener">
           <span class="lc-icon">🔗</span>
           <div class="lc-body">
-            <div class="lc-title">Reference 002</div>
-            <div class="lc-url">https://REPLACE_URL_2</div>
-            <div class="lc-desc">[Replace this description with context about what this link contains and why it matters to the story.]</div>
+            <div class="lc-title">reynolds_inspo</div>
+            <div class="lc-url">youtube.com</div>
+            <div class="lc-desc">I'd bet all my money this was the initial inspiration for her passphrase. She's always so obsessed with musicals, especially this one...</div>
           </div>
         </a>
       </div>
 
       <!-- LINK 3 -->
       <div id="pane-link3" class="pane">
-        <div class="prompt">&gt; open <span>ref_003.url</span></div>
-        <div class="pane-title">ref_003.url</div>
-        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: unverified</div>
+        <div class="prompt">&gt; open <span>alternate.html</span></div>
+        <div class="pane-title">alternate.html</div>
+        <div class="pane-meta">type: internal email &nbsp;|&nbsp; trust: redacted</div>
         <a class="link-card" href="https://REPLACE_URL_3" target="_blank" rel="noopener">
           <span class="lc-icon">🔗</span>
           <div class="lc-body">
-            <div class="lc-title">Reference 003</div>
+            <div class="lc-title">alternate.html</div>
             <div class="lc-url">https://REPLACE_URL_3</div>
-            <div class="lc-desc">[Replace this description with context about what this link contains and why it matters to the story.]</div>
+            <div class="lc-desc">Not entirely sure who wrote this (or who they sent it to) but the legible bits and pieces may prove somehow useful.</div>
           </div>
         </a>
       </div>
