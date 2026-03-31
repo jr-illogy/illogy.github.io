@@ -299,6 +299,38 @@
     .link-card .lc-url { color: var(--muted); font-size: 11px; word-break: break-all; }
     .link-card .lc-desc { color: var(--text); font-size: 11px; margin-top: 0.3rem; line-height: 1.6; }
 
+    /* ── Glitch ── */
+    @keyframes g-shake {
+      0%,100% { transform: translateX(0) skewX(0); }
+      15% { transform: translateX(-4px) skewX(3deg); }
+      30% { transform: translateX(4px) skewX(-3deg); }
+      60% { transform: translateX(-2px); }
+    }
+    @keyframes g-slice-a {
+      0%   { clip-path: inset(30% 0 55% 0); transform: translateX(-6px); }
+      50%  { clip-path: inset(10% 0 75% 0); transform: translateX(6px); }
+      100% { clip-path: inset(60% 0 20% 0); transform: translateX(-4px); }
+    }
+    @keyframes g-slice-b {
+      0%   { clip-path: inset(60% 0 20% 0); transform: translateX(5px); }
+      50%  { clip-path: inset(80% 0 5%  0); transform: translateX(-5px); }
+      100% { clip-path: inset(20% 0 60% 0); transform: translateX(4px); }
+    }
+    .glitch-el { position: relative; display: inline-block; }
+    .glitch-el.glitching {
+      animation: g-shake 0.09s steps(1) infinite;
+      color: #ff1a1a !important;
+      text-shadow: 2px 0 #ff1a1a, -2px 0 #00ffea;
+      font-family: var(--font) !important;
+    }
+    .glitch-el.glitching::before, .glitch-el.glitching::after {
+      content: attr(data-text);
+      position: absolute; inset: 0;
+      color: #ff1a1a; background: transparent;
+    }
+    .glitch-el.glitching::before { text-shadow: -3px 0 #00ffea; animation: g-slice-a 0.1s steps(1) infinite; }
+    .glitch-el.glitching::after  { text-shadow: 3px 0 #ff1a1a;  animation: g-slice-b 0.1s steps(1) infinite; opacity: 0.75; }
+
     /* ── Locked file ── */
     .tree-item.locked { color: var(--red); opacity: 0.7; }
     .tree-item.locked:hover { color: var(--red); opacity: 1; background: #1a0a0a; }
@@ -450,9 +482,10 @@
         </pre>
         <div class="warn">⚠ WARNING: THIS DIRECTORY IS NOT PART OF THE PUBLIC RELEASE.</div>
         <div class="pane-body">
-          <p>If you are reading this, you followed the right thread. The product you were shown is real. What it is <em style="color:var(--red)">for</em> is not what you were told.</p>
-          <p>This directory contains the materials we were not supposed to leave behind. Browse carefully. Some of it is noise. Some of it is not.</p>
-          <p style="color:var(--muted)">— last modified: [REDACTED] &nbsp;|&nbsp; owner: shep_admin &nbsp;|&nbsp; clearance: none required, apparently</p>
+          <p>If you are reading this, you followed the right thread and I was able to grant you access to the Pasture system. The product you were shown is real. It may not be as revolutionary now as it was when it first released, but I can't help but feel there's something <em style="color:var(--red)">more</em> to all this.</p>
+          <p>This directory contains remnnants from system, materials that were never meant to be saved and were we were <em style="color:var(--red)">certainly</em> not meant to survive. Browse carefully. Some of it is noise. Some of it is not.</p>
+          <p>I need you to help me figure out what's going on here. Think outside the box so we can learn what's true.</p>
+          <p style="color:var(--muted)">— last modified: [REDACTED] &nbsp;|&nbsp; owner: <span id="glitch-admin" class="glitch-el" data-text="shep_admin">shep_admin</span> &nbsp;|&nbsp; clearance: none required, apparently</p>
         </div>
       </div>
 
@@ -647,6 +680,36 @@
 </div><!-- /shell -->
 
 <script>
+  // ── shep_admin glitch ──
+  (function adminGlitch() {
+    const el = document.getElementById('glitch-admin');
+    function cycle() {
+      // glitch in
+      el.dataset.text = 'adam';
+      el.textContent = 'adam';
+      el.classList.add('glitching');
+      el.style.cssText = 'color:#ff1a1a';
+      setTimeout(() => {
+        el.classList.remove('glitching');
+        // hold briefly (0.4–1s)
+        setTimeout(() => {
+          // glitch back
+          el.dataset.text = 'shep_admin';
+          el.textContent = 'shep_admin';
+          el.classList.add('glitching');
+          setTimeout(() => {
+            el.classList.remove('glitching');
+            el.style.cssText = '';
+            el.dataset.text = 'shep_admin';
+            // next cycle: random 2–20s
+            setTimeout(cycle, 2000 + Math.random() * 18000);
+          }, 120);
+        }, 400 + Math.random() * 600);
+      }, 120);
+    }
+    setTimeout(cycle, 2000 + Math.random() * 18000);
+  })();
+
   // ── File tree navigation ──
   document.querySelectorAll('.tree-item').forEach(item => {
     item.addEventListener('click', () => {
