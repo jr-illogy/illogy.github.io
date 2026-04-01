@@ -298,6 +298,47 @@
     .link-card .lc-url { color: var(--muted); font-size: 11px; word-break: break-all; }
     .link-card .lc-desc { color: var(--text); font-size: 11px; margin-top: 0.3rem; line-height: 1.6; }
 
+    .redacted {
+      background: #000;
+      color: #000;
+      border-radius: 2px;
+      padding: 0 3px;
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+    }
+    .redacted.revealed {
+      background: #1a0000;
+      color: #ff1a1a;
+      text-shadow: 2px 0 #ff1a1a, -2px 0 #00ffea;
+    }
+    .redacted.glitch-in {
+      animation: g-shake 0.09s steps(1) infinite;
+    }
+    .redacted.glitch-in::before {
+      content: attr(data-reveal);
+      position: absolute;
+      inset: 0;
+      color: #ff1a1a;
+      text-shadow: -2px 0 #00ffea;
+      animation: g-slice-a 0.1s steps(1) infinite;
+      background: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .redacted.glitch-in::after {
+      content: attr(data-reveal);
+      position: absolute;
+      inset: 0;
+      color: #ff1a1a;
+      text-shadow: 2px 0 #ff1a1a;
+      animation: g-slice-b 0.1s steps(1) infinite;
+      background: transparent;
+      opacity: 0.7;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
     /* ── Glitch ── */
     @keyframes g-shake {
       0%,100% { transform: translateX(0) skewX(0); }
@@ -397,6 +438,10 @@
         <span class="icon">📄</span>
         <span class="fname">notes_internal.txt</span>
       </div>
+      <div class="tree-item" data-pane="pane-email">
+        <span class="icon">📄</span>
+        <span class="fname">alt_scenario_draft.eml</span>
+      </div>
       <div class="tree-item" onclick="window.location='search.html'">
         <span class="icon">🔍</span>
         <span class="fname">personnel_search.exe</span>
@@ -452,6 +497,69 @@
 
     <!-- ══ CONTENT PANEL ══ -->
     <div id="content">
+
+      <!-- EMAIL -->
+      <div id="pane-email" class="pane">
+        <div class="prompt">&gt; cat <span>alt_scenario_draft.eml</span></div>
+        <div class="pane-title">alt_scenario_draft.eml</div>
+        <div class="pane-meta">filetype: message/rfc822 &nbsp;|&nbsp; partial recovery: discovered in data leak from Boulder, CO &nbsp;|&nbsp; redactions: applied by unknown party</div>
+
+        <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)"><span class="redacted" data-reveal="&lt;PACKET_LOSS&gt;">ERR://ADDR_CORRUPT</span> &lt;<span class="redacted" data-reveal="ERR://ADDR_CORRUPT">#$%$*%$0@!#^^$083948$$%</span>&gt;</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">TO:</span> <span style="color:var(--text)"><span class="redacted" data-reveal="&lt;PACKET_LOSS&gt;">ERR://ADDR_CORRUPT</span> &lt;<span class="redacted" data-reveal="ERR://ADDR_CORRUPT">###%*&$**%&@$&*%$</span>&gt;</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">DATE:</span> <span style="color:var(--text)"><span class="redacted" data-reveal="ERR://TIMESTAMP_NULL">DATE REDACTED</span></span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">SUBJECT:</span> <span style="color:var(--amber)">thought experiment (do not forward)</span></div>
+          <div style="color:var(--muted);margin-bottom:0"><span style="display:inline-block;min-width:80px">CC:</span> <span style="color:var(--text)">—</span></div>
+        </div>
+
+        <div class="pane-body" style="max-width:680px;font-size:12px">
+          <p><span class="redacted" data-reveal="&lt;PACKET_LOSS&gt;">ghlm49834</span>,</p>
+
+          <p>Do you believe in alternate realities, parallel worlds? Do you believe that which never was might not have never been? I first had the concept introduced to me as "the butterfly effect" — a more palatable version of the idea, sure, but its core is the same. One butterfly flapping its wings can lead to a tsunami on the other edge of the world. It's a series of compounding "what if" ponderings. But again, its core is the same.</p>
+
+          <p>This is the only world we know, the only story we're able to live through, but what if we're the tsunami? What if we're the butterfly?</p>
+
+          <p><span class="redacted" data-reveal="&lt;LOSS&gt;&lt;LOSS&gt;&lt;LOSS&gt;">akjsdgb678337467</span> saw one alternate path for this story emerge <span class="redacted" data-reveal="&lt;LOSS&gt;&lt;ERR&gt;&lt;LOSS&gt;">pssih4789447763</span> same foundation. Symbolism seems to track the same, as does <span class="redacted" data-reveal="&lt;LOSS&gt;&lt;LOSS&gt;PKT_ERR&lt;LOSS&gt;TIMEOUT&lt;LOSS&gt;&lt;LOSS&gt;">dsiuyjdfissdi387458765857436298347</span> still appears to flow similarly, and yet it takes things in a different direction. I hesitate to share it because it would change the <span class="redacted" data-reveal="&lt;LOSS&gt;ERR_CORRUPT_SECRETS">edp44532342</span> the thematic <span class="redacted" data-reveal="&lt;LOSS&gt;&lt;LOSS&gt;TIMEOUT">rotaflas38374849238</span> motivations, and solidify some of the <span class="redacted" data-reveal="&lt;LOSS&gt;TIMEOUT">ashf383788</span> opaque/abstract details.</p>
+
+          <p>Ray is working on a project to create advanced NPCs in a digital environment as an overpowered video game, with the secret goal of it becoming a digital afterlife for himself. Everyone else (Adam, investors, etc.) sees the implications of this NPC project (potential afterlife extending consciousness) but Ray tries to play it cool (a more intentional deception of ignorance). It's later revealed that Ray has dreams/memories of the supernatural afterlife (could be <span class="redacted" data-reveal="&lt;LOSS&gt;&lt;LOSS&gt;&lt;LOSS&gt;">ERRERRERRERRERRERRERRERRERRERRERRERRERR</span>, depending on reader interpretation), which isn't supposed to happen. These "glitch" memories (along with his superb technical skills) are what give Ray the unique ability to make this project successful since he has a frame of reference to build it on.</p>
+
+          <p>But if Ray has been in the afterlife/pre-life and knows it exists, why would he build a digital one, which is arguably inferior? Because something in his memories convinces Ray he is on his last life — whether he's on his last reincarnation, or that he only gets one life, or it's simply the natural balance of things. The human desire to survive (and maybe a more specific, personal reason from his past) propels him to create a digital promised land: <strong style="color:var(--green)">The Pasture</strong>.</p>
+
+          <p>However, it's an increasingly dangerous time to dabble in the unreal; they're in the midst of the War on the Real. Strict verification protocols search for digital frauds living in the real world — the inverse of what Ray is creating ("real" frauds living in a digital world).</p>
+
+          <p>Lyn confronts and fires Ray because she believes he's unreal — a misdirection to the reader and Lyn, because he's very real, but his actions make him appear otherwise. His color-coded thoughts in this scene could still pop up, misleading the reader to suspect he isn't real — until it's revealed they're the early signs that Ray has started integrating his consciousness into the Pasture as part of the tests (twist!). She threatens to erase the files in the building, which presses Ray to come clean about his true purpose with the project to both defend his reality, and prevent the parts of his uploaded/integrated consciousness from being deleted.</p>
+
+          <p>When Lyn learns of Ray's plan, she is horrified and raises the question of: Even if humanity can save itself, should they (moral)? This aligns with her symbolism as a redemptive Jesus figure (with the message that humanity can't save itself, they need divine intervention), and the river Styx that requires payment (everything has a cost, and a self-made salvation is sure to exact a hefty yet unknown price). Perhaps she also makes Ray question if his belief that this is his last life is even true. Did he misinterpret something along the way? Can he even trust these dreams/memories?</p>
+
+          <p>The bomb goes off near Ray and Lyn, and in a moment of doubt and desperation, Ray (like <span class="redacted" data-reveal="CHARLTON HESTON">CHARLTON HESTON</span>) reaches for his safety hatch: his way to enter the Pasture now because he doesn't want to wait. The scene ends before the reader learns if he was successful. Did Ray make it to his digital afterlife? There could be many potential endings, left up to the reader to interpret:</p>
+
+          <ul style="margin:0 0 1rem 1.5rem;line-height:2">
+            <li>Ray made it to the digital afterlife, and he's living happily ever after. It might be the Library, or it might be something else.</li>
+            <li>Ray made it to the digital afterlife, but it's dependent on very real computer servers that are housed in a building that was just bombed.</li>
+            <li>Ray made it to the digital afterlife, but he was wrong about it being his last time living, and it bars his soul from entering the real afterlife again, meaning he put himself in digital purgatory instead.</li>
+            <li>Ray didn't make it and dies one final time, his life forever extinguished as he expected.</li>
+            <li>Ray didn't make it, but he was wrong about it being his last life and goes to the real afterlife again as a final resting place or to be reincarnated.</li>
+          </ul>
+
+          <p>If we take the <span class="redacted" data-reveal="CHARLTON HESTON">CHARLTON HESTON</span> parallel, it's likely that he fails to enter the digital afterlife (like the promised land), but he does go to the eventual, "real" afterlife — either as a final resting place, or to be reincarnated because he was wrong about it being his last life. And the presence of the symbols from Lyn (baptism in water and forgiveness, paying to cross the river Styx with gold) would seem to suggest that Ray makes it into some version of an afterlife and doesn't just die. But that wouldn't need to be explicitly stated.</p>
+
+          <p>There's still ambiguity about what exactly the Library is. Depending on which ending the reader believes in, the Library could be interpreted as:</p>
+
+          <ul style="margin:0 0 1rem 1.5rem;line-height:2">
+            <li>The digital afterlife Ray succeeds in entering (post-Ray)</li>
+            <li>The memories of the real afterlife Ray was in before he became Ray (pre-Ray)</li>
+            <li>The real afterlife Ray entered after dying in the bomb (post-Ray)</li>
+          </ul>
+
+          <p>The book could still end on the scene where <span class="redacted" data-reveal="ERR://IDENTITY_NULL">rhfflsmg44593</span> leaves the library and steps into his new life, presumably (but not assuredly) as Ray, leaving readers with a hopeful feeling with eerie undertones. Did we just witness the man walking into another life or his last death, or something else? We'll never know.</p>
+
+          <p>The main thematic question would be around if humanity can save themselves — and if they should. So the question is: in a full sea of questions, which wave will you prioritize?</p>
+
+          <p>Of course, this would have a ripple effect on the other scenes and characters. But I'll stop with the thought experiment for now.</p>
+
+          <p style="color:var(--muted);margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);font-size:11px">[end of recovered content] &nbsp;|&nbsp; <span style="color:var(--red)">3 attachments stripped by recovery process</span></p>
+        </div>
+      </div>
 
       <!-- NOTES -->
       <div id="pane-notes" class="pane">
@@ -679,6 +787,31 @@
 </div><!-- /shell -->
 
 <script>
+  // ── Redacted click-to-reveal ──
+  document.querySelectorAll('.redacted').forEach(el => {
+    el.dataset.original = el.textContent;
+  });
+  document.querySelectorAll('.redacted').forEach(el => {
+    let busy = false;
+    el.addEventListener('click', () => {
+      if (busy) return;
+      busy = true;
+      el.textContent = el.dataset.reveal;
+      el.classList.add('revealed', 'glitch-in');
+      setTimeout(() => {
+        el.classList.remove('glitch-in');
+        setTimeout(() => {
+          el.classList.add('glitch-in');
+          setTimeout(() => {
+            el.textContent = el.dataset.original;
+            el.classList.remove('revealed', 'glitch-in');
+            busy = false;
+          }, 120);
+        }, 2000);
+      }, 120);
+    });
+  });
+
   // ── shep_admin glitch ──
   (function adminGlitch() {
     const el = document.getElementById('glitch-admin');
