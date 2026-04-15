@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>/ref/external — referential</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080810;
+      --border:    #1a1a2e;
+      --blue:      #4fc3f7;
+      --blue-dim:  #1a3a5c;
+      --red:       #ff3333;
+      --amber:     #ffb300;
+      --text:      #c8d8e8;
+      --muted:     #4a5a6b;
+      --font:      'Courier New', Courier, monospace;
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; overflow: hidden; }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #shell { display: grid; grid-template-rows: auto 1fr; height: 100vh; }
+
+    #topbar {
+      background: var(--blue);
+      color: #000;
+      padding: 0.35rem 1rem;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    #main { display: grid; grid-template-columns: 280px 1fr; overflow: hidden; }
+
+    #filetree { border-right: 1px solid var(--border); overflow-y: auto; padding: 1rem 0; }
+
+    .tree-header {
+      padding: 0 1rem 0.75rem;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+
+    .tree-folder { padding: 0.3rem 1rem; color: var(--amber); cursor: default; user-select: none; }
+    .tree-folder::before { content: '▶ '; font-size: 9px; }
+
+    .tree-item {
+      padding: 0.3rem 1rem 0.3rem 2rem;
+      cursor: pointer;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.15s, color 0.15s;
+      border-left: 2px solid transparent;
+    }
+    .tree-item:hover { background: #0a0a1f; color: var(--blue); }
+    .tree-item.active { background: #0a0a1f; color: var(--blue); border-left-color: var(--blue); }
+    .tree-item .icon { font-size: 11px; opacity: 0.7; }
+    .tree-item .fname { flex: 1; }
+    .tree-item .badge { font-size: 9px; padding: 1px 5px; border-radius: 2px; background: var(--blue-dim); color: var(--blue); }
+
+    #content { overflow-y: auto; padding: 2rem; }
+
+    .pane { display: none; }
+    .pane.active { display: block; }
+
+    .prompt { color: var(--muted); margin-bottom: 2rem; font-size: 11px; }
+    .prompt span { color: var(--blue); }
+
+    .pane-title { color: var(--blue); font-size: 1.4rem; font-weight: bold; margin-bottom: 0.3rem; }
+    .pane-meta { color: var(--muted); font-size: 11px; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+    .pane-body { line-height: 1.85; color: var(--text); max-width: 680px; }
+    .pane-body p { margin-bottom: 1.1rem; }
+    .pane-body h3 { color: var(--blue); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; margin: 1.5rem 0 0.5rem; }
+
+    .warn {
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 0.6rem 1rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    .placeholder-note {
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      padding: 1rem 1.25rem;
+      font-size: 11px;
+      line-height: 1.8;
+      max-width: 560px;
+      margin-top: 1rem;
+    }
+
+    blockquote {
+      border-left: 2px solid var(--blue-dim);
+      padding-left: 1rem;
+      color: var(--muted);
+      font-style: italic;
+      margin: 1rem 0;
+    }
+
+    .doc-footer {
+      margin-top: 2rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--blue-dim); }
+  </style>
+</head>
+<body>
+<div id="shell">
+
+  <div id="topbar">
+    <span>/ref/external — REFERENTIAL MATERIALS — READ-ONLY</span>
+    <span><span class="blink">█</span> OUTSIDE SYSTEM BOUNDARY</span>
+  </div>
+
+  <div id="main">
+
+    <!-- ══ FILE TREE ══ -->
+    <div id="filetree">
+      <div class="tree-header">/ ref / external</div>
+
+      <div class="tree-item" onclick="window.location='hub.html'" style="color:var(--blue);border-bottom:1px solid var(--border);margin-bottom:0.5rem;padding-bottom:0.5rem">
+        <span class="icon">←</span>
+        <span class="fname">../hub</span>
+      </div>
+
+      <div class="tree-folder">incoming</div>
+      <div class="tree-item active" data-pane="pane-welcome">
+        <span class="icon">📄</span>
+        <span class="fname">NOTICE.txt</span>
+        <span class="badge">open</span>
+      </div>
+
+      <div class="tree-folder">documents</div>
+      <div class="tree-item" data-pane="pane-rabbit">
+        <span class="icon">📄</span>
+        <span class="fname">rabbit_motif_paper.txt</span>
+      </div>
+      <div class="tree-item" data-pane="pane-voicenote">
+        <span class="icon">🎙</span>
+        <span class="fname">voice_transcription_01.txt</span>
+      </div>
+      <div class="tree-item" data-pane="pane-placeholder1">
+        <span class="icon">📄</span>
+        <span class="fname">war_on_the_real_primer.txt</span>
+      </div>
+      <div class="tree-item" data-pane="pane-placeholder2">
+        <span class="icon">📄</span>
+        <span class="fname">field_notes_socal_split.txt</span>
+      </div>
+    </div>
+
+    <!-- ══ CONTENT PANEL ══ -->
+    <div id="content">
+
+      <!-- NOTICE -->
+      <div id="pane-welcome" class="pane active">
+        <div class="prompt">&gt; cat <span>NOTICE.txt</span></div>
+        <div class="warn">
+          ⓘ &nbsp;NOTICE: You are no longer inside the internal directory.<br/><br/>
+          What you’ve found is a few documents that exist outside the internal directory, yet somehow it’s still imperfectly linked. I don’t suspect this place will contain any specific clues pertaining to what we’re ultimately searching for.<br/><br/>
+          But still, an imperfect pathway is still a pathway - maybe these documents will prove interesting or otherwise insightful.<br/><br/>
+          After all, knowledge doesn’t always need a specific endpoint.<br/><br/>
+          <span style="color:var(--muted)">— last modified: [REDACTED]  |  owner: shep_admin </span>
+        </div>
+        <div style="color:var(--muted);font-size:11px;max-width:560px;line-height:1.8">
+          <p>These materials are not indexed in the main directory. They are imperfectly linked but still, they were not recovered - they were left here deliberately by someone who believed context matters even when it doesn't point anywhere specific.</p>
+          <p>Read carefully. Or don't. What you're looking for doesn't directly require it. But the path is richer for it.</p>
+        </div>
+      </div>
+
+      <!-- RABBIT MOTIF PAPER -->
+      <div id="pane-rabbit" class="pane">
+        <div class="prompt">&gt; cat <span>rabbit_motif_paper.txt</span></div>
+        <div class="pane-title">rabbit_motif_paper.txt</div>
+        <div class="pane-meta">type: academic paper (excerpt, introduction) &nbsp;|&nbsp; author: Ryan et al. &nbsp;|&nbsp; status: published</div>
+        <div class="pane-body">
+          <h3>Examining 'The Rabbit' as a Modern Motif</h3>
+
+          <p>In examining the idea of significance in a narrative text, there exists a concept known as a motif — a recurring element which holds unique additional significance beyond which is explicitly stated. This exists in all forms of storytelling: leitmotifs in music as fragments of melodies and rhythms, recurring imagery or structural elements in literature, visual cues in film, etc. These are images, sounds, words, patterns, themes, or otherwise which enhance understanding and depth of the initial text.</p>
+
+          <p>Especially with the onset of the War on the Real, though, it is increasingly easy to view the surrounding world as a form of narrative text. As such, it may prove a beneficial exercise to examine the surrounding through the same methodologies and processes otherwise applied to other media for narrative storytelling. In this paper, my colleagues and I present the first step in this process: an examination of the 'rabbit' as a living motif in the physical world.</p>
+
+          <p>Why start with the rabbit? The origins of the War on the Real are relatively obscured, not nearly as delineated as an event like the killing of Archduke Franz Ferdinand which ignited World War I — though some scholars argue that the war 'began' in a similar sense with the Hack of the Five, which is otherwise referred to as the SoCal Split (Chan 43). Given that this war is uniquely ideological in its pretense, though, the authors of this paper interpret the true catalyst of the war to be precursory to the Hack of the Five. Again, since the Hack of the Five is in many ways the first true physical 'event' of the war in the traditional sense, precursory events are less clearly delineated as 'events', but much like the Balkan Powder Keg which set the conditions for World War I as it escalated, many of the 'events' which set the conditions for the War on the Real could be considered as part of the war itself instead of merely contributing to it passively.</p>
+
+          <p>One of the most commonly accepted of these 'ideological dominoes' which ultimately fell to create the war traces back to the British children's book <em>The Velveteen Rabbit (or How Toys Become Real)</em>, written by Margery Williams and initially published in 1921. The story explores a stuffed rabbit's desire to become real through the love of its owner. In our context, readers started viewing the story with a sort of revisionism and found that it highlights the strangeness of reality. Some scholars argue that the loss of childhood many young adults now feel as a result of history "moving too quickly or otherwise too intensely" is what made this children's story particularly impactful (Henderson et al. 72). Regardless, the titular character has become a symbol for the war and for the strangeness of reality, and recently 'The Velveteen Rabbit' has been simplified to any image of a rabbit being granted this same significance. This paper does not seek to examine the beginnings of the war beyond this groundwork which introduces the importance of the story and the symbol.</p>
+
+          <p>At a glance, this paper will examine several existing stories and possible alternative meanings for the rabbit. This paper will examine content creators such as FluffyBunny2525; existing works of media across film, television, print; digital worlds and video games, with special attention paid to <em>The Last of Us</em>; and British storytelling with iconic characters and franchises such as Wallace and Gromit to explore a global outreach beyond the American bubble.</p>
+
+          <div class="doc-footer">SOURCE: circulated draft &nbsp;|&nbsp; CLASSIFICATION: external &nbsp;|&nbsp; INDEXED: manually</div>
+        </div>
+      </div>
+
+      <!-- VOICE NOTE TRANSCRIPTION -->
+      <div id="pane-voicenote" class="pane">
+        <div class="prompt">&gt; cat <span>voice_transcription_01.txt</span></div>
+        <div class="pane-title">voice_transcription_01.txt</div>
+        <div class="pane-meta">type: voice note transcription &nbsp;|&nbsp; speaker: [REDACTED] &nbsp;|&nbsp; transcribed: automatically &nbsp;|&nbsp; verified: no</div>
+        <div class="pane-body">
+          <p>I found out today that I have an irregularly shaped uterus. Apparently I've had this since I was born and just never knew it — I mean it's not like it's caused any problems for me or I've noticed anything irregular because of it. But now I'm 25 and I am starting to think about my future more than before. I mean I'm not married or anything, but will I want kids one day? It's hard to think about things like this when the world is the way it is but I feel like if I don't start thinking about it now I never will, and I don't want to look back on my life when I'm 80 — if I make it to that age — and regret that I never thought about it or allowed myself the option.</p>
+
+          <p>I'll have to have surgery to fix it if I want to improve my chances of having kids one day. I'm told it's a significant improvement, something like from 1% to 25%. But the surgery isn't what phases me, oddly enough. They did an x-ray to show me what my uterus actually looks like — now, in real time, at this very moment. And that's the kicker: it's shaped with this large indentation centered at the top, which gives it an appearance of stretching upwards on both sides but not in the middle. It looks like a rabbit.</p>
+
+          <p>The one time I start thinking about my future and my uterus looks like the fucking Velveteen Rabbit? What kind of sick joke is that… or is it a dark omen, a divine warning, a curse rendered visible to the likes of someone like me?</p>
+
+          <p>I guess the joke is on me for thinking about it in the first place. It would be selfish of me to bring kids into a world that seems like it's ending like this, but what if we come through it all and are still kicking on the other side? When World War II ended there was a huge baby boom, large enough to name an entire generation accordingly. Would this not be the same: a generation named in celebration of conquering reality itself? The Real Generation? Just to allow myself that possibility one day doesn't seem so selfish to me, I mean it isn't committal it's just opening a possible pathway for what may one day come my way…</p>
+
+          <p>But the message here is clear. I'll never have children because I'll never have a future. This is a war which cannot be won, and yet it's a battle that cannot be stopped now that we're this deep into it. The velveteen monstrosity that's been inside me this whole time — this whole fucking time — will be the end of me. My end was written from the very beginning: this war on reality will destroy me in the process.</p>
+
+          <p>My fate is sealed, my demise is already internalized. There's only one question which matters now, and it isn't if I'll have kids or if I'll have the surgery to mend the brokenness inside me.</p>
+
+          <blockquote>Am I real? Or was I ever?</blockquote>
+
+          <div class="doc-footer">TRANSCRIPTION ENDS &nbsp;|&nbsp; DURATION: unknown &nbsp;|&nbsp; ORIGIN: unverified &nbsp;|&nbsp; NOTE: recording not retained</div>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER 1 -->
+      <div id="pane-placeholder1" class="pane">
+        <div class="prompt">&gt; cat <span>war_on_the_real_primer.txt</span></div>
+        <div class="pane-title">war_on_the_real_primer.txt</div>
+        <div class="pane-meta">type: contextual primer &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; status: draft</div>
+        <div class="pane-body">
+          <h3>The War on the Real — A Primer</h3>
+          <p>[Worldbuilding document — content to be added.]</p>
+          <p>This document is intended to provide foundational context for the War on the Real: its ideological origins, the verification protocols, the SoCal Split, and the broader cultural conditions that preceded and precipitated the conflict.</p>
+          <div class="placeholder-note">
+            ⓘ This file has been reserved for worldbuilding content. Replace this placeholder with the relevant primer text when ready.
+          </div>
+          <div class="doc-footer">STATUS: PLACEHOLDER &nbsp;|&nbsp; AWAITING CONTENT</div>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER 2 -->
+      <div id="pane-placeholder2" class="pane">
+        <div class="prompt">&gt; cat <span>field_notes_socal_split.txt</span></div>
+        <div class="pane-title">field_notes_socal_split.txt</div>
+        <div class="pane-meta">type: field notes (fragment) &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; recovered: partial</div>
+        <div class="pane-body">
+          <h3>Field Notes — The SoCal Split</h3>
+          <p>[Worldbuilding document — content to be added.]</p>
+          <p>This document is intended to contain recovered field notes from around the time of the Hack of the Five — ground-level observations, personal accounts, and fragmentary records from the event referred to in academic literature as the SoCal Split.</p>
+          <div class="placeholder-note">
+            ⓘ This file has been reserved for worldbuilding content. Replace this placeholder with field note fragments, personal accounts, or other relevant material when ready.
+          </div>
+          <div class="doc-footer">STATUS: PLACEHOLDER &nbsp;|&nbsp; AWAITING CONTENT</div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+  document.querySelectorAll('.tree-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (!item.dataset.pane) return;
+      document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      document.getElementById(item.dataset.pane).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
