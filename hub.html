@@ -472,8 +472,12 @@
         <span class="badge red">enc</span>
       </div>
 
+      <div class="tree-item" data-pane="pane-corp-email">
+        <span class="icon">📄</span>
+        <span class="fname">corp_email_mod.eml</span>
+      </div>
+
       <div class="tree-divider"></div>
-      <div class="tree-folder" style="color:var(--red)">classified</div>
       <div class="tree-item locked" data-pane="pane-locked">
         <span class="icon">🔒</span>
         <span class="fname">classified_final.enc</span>
@@ -637,48 +641,47 @@
               <span>Soupe à l'oignon gratinée</span><span class="dots"></span><span class="price">9</span>
             </div>
             <div class="menu-item">
-              <span>Terrine de campagne, cornichons</span><span class="dots"></span><span class="price">11</span>
+              <span>Cromesquis d'escargots, beurre ail persil, frisée</span><span class="dots"></span><span class="price">18</span>
             </div>
             <div class="menu-item">
-              <span>Œufs mimosa, ciboulette</span><span class="dots"></span><span class="price">8</span>
+              <span>Pied de cochon croustillant "désossé", farci aux champignons, frisée fine</span><span class="dots"></span><span class="price">16</span>
             </div>
             <div class="menu-item">
-              <span style="color:#c00">Salade Shep <em style="font-size:0.7rem">(spécialité)</em></span><span class="dots"></span><span class="price">13</span>
-              <span class="desc">endives, noix, roquefort, poire — demandez au serveur</span>
+              <span>Pâté en croûte, poularde, ris de veau et pistaches</span><span class="dots"></span><span class="price">16</span>
             </div>
           </div>
 
           <div class="menu-section">
             <h3>Plats</h3>
             <div class="menu-item">
-              <span>Steak frites, beurre maître d'hôtel</span><span class="dots"></span><span class="price">22</span>
+              <span>Tartare de boeuf au couteau, frites, salade</span><span class="dots"></span><span class="price">24</span>
             </div>
             <div class="menu-item">
-              <span>Poulet rôti, jus de volaille</span><span class="dots"></span><span class="price">19</span>
-            </div>
-            <div class="menu-item">
-              <span>Sole meunière, haricots verts</span><span class="dots"></span><span class="price">26</span>
+              <span>Saumon bio d'Ecosse à l'oseille, pommes de terre vapeur</span><span class="dots"></span><span class="price">22</span>
             </div>
             <div class="menu-item">
               <span>Risotto du jour</span><span class="dots"></span><span class="price">17</span>
+            </div>
+            <div class="menu-item">
+              <span style="color:#c00">Salade de lapin <em style="font-size:0.7rem">(spécialité)</em></span><span class="dots"></span><span class="price">25</span>
             </div>
           </div>
 
           <div class="menu-section">
             <h3>Desserts</h3>
             <div class="menu-item">
-              <span>Crème brûlée à la vanille</span><span class="dots"></span><span class="price">8</span>
+              <span>Crème brûlée, vanille de Madagascar</span><span class="dots"></span><span class="price">11</span>
             </div>
             <div class="menu-item">
-              <span>Tarte tatin, crème fraîche</span><span class="dots"></span><span class="price">9</span>
+              <span>Baba en kouglof, rhum brun de Barbade</span><span class="dots"></span><span class="price">12</span>
             </div>
             <div class="menu-item">
-              <span>Mousse au chocolat</span><span class="dots"></span><span class="price">7</span>
+              <span>Parfait glacé à la Chartreuse et angèlique</span><span class="dots"></span><span class="price">12</span>
             </div>
           </div>
 
           <div class="menu-stamp">
-            Service compris · Ouvert tous les jours · Réservations: +33 1 XX XX XX XX<br/>
+            Service compris · Ouvert tous les jours · Prix nets en euros<br/>
             <span style="color:#c00;font-size:0.6rem">TABLE 14 — RESERVED INDEFINITELY</span>
           </div>
         </div>
@@ -755,6 +758,29 @@
             <div class="lc-desc">This is our first source outside the United States... and it's a summary of a British historical event. Maybe it relates somehow...?</div>
           </div>
         </a>
+      </div>
+
+      <!-- CORP EMAIL -->
+      <div id="pane-corp-email" class="pane">
+        <div class="prompt">&gt; cat <span>corp_email_mod.eml</span></div>
+        <div class="pane-title">corp_email_mod.eml</div>
+        <div class="pane-meta">filetype: message/rfc822 &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+
+        <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">[redacted]</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">TO:</span> <span style="color:var(--text)">Erin</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">DATE:</span> <span style="color:var(--text)">[redacted]</span></div>
+          <div style="color:var(--muted);margin-bottom:0"><span style="display:inline-block;min-width:80px">SUBJECT:</span> <span style="color:var(--amber)">Question about your new 'mod'</span></div>
+        </div>
+
+        <div class="pane-body">
+          <p>Erin,</p>
+          <p>Been a minute, how've you been? I heard you've been hanging out with Jacelyn quite a bit these days&hellip; it'd be funny if her name was Katherine, I mean I know her passphrase is clever and I get that it comes from the whole 'moover and shaker' thing, I get the pun, I just think it would be <em>even more</em> clever if her name was Katherine because then she could be 'Calf-erine'! Say it with a speech impediment and you'll see what I'm getting at.</p>
+          <p>Anyway, just wanted to ask real quick about the whole modulo thing I've seen you doing lately. I get the concept, it's just basically a fancy version of a remainder after performing a division. 10 mod 4 is 2, 11 mod 12 is 11, and so on. I get the problem space you're using it in too: cropping a number outside a set of defined bounds to fit within those confines, very clever. It makes binning way more efficient too &mdash; like I said, I get it. I was wondering if you've also thought about using it for data splitting when we get to it? I figure it's easy enough for cross-validation to just assign data points to specific folds with <span style="color:var(--green);font-family:var(--font)">index % numFolds</span>.</p>
+          <p>I realize we aren't there yet, but if you're thinking you'll want to use this same functionality again when we get to it, it might be helpful to containerize it now so it's a bit easier to reuse it down the line. You know best, this is just food for thought, but if that's the path you ultimately decide to go down, just know I'll expect at least partial credit when the time comes.</p>
+          <p style="margin-top:1.5rem">Enjoy your 'Modulo' time,<br/><span style="color:var(--muted)">[redacted]</span></p>
+          <div class="pane-meta" style="margin-top:2rem">SOURCE: recovered correspondence &nbsp;|&nbsp; CLASSIFICATION: internal</div>
+        </div>
       </div>
 
       <!-- LOCKED FILE -->
