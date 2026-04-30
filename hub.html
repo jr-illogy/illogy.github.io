@@ -601,7 +601,7 @@
           <p>If you are reading this, you followed the right thread and I was able to grant you access to the Pasture system. The product you were shown is real. It may not be as revolutionary now as it was when it first released, but I can't help but feel there's something <em style="color:var(--red)">more</em> to all this.</p>
           <p>This directory contains remnnants from system, materials that were never meant to be saved and were we were <em style="color:var(--red)">certainly</em> not meant to survive. Browse carefully. Some of it is noise. Some of it is not.</p>
           <p>I need you to help me figure out what's going on here. Think outside the box so we can learn what's true.</p>
-          <p style="color:var(--muted)">— last modified: [REDACTED] &nbsp;|&nbsp; owner: <span id="glitch-admin" class="glitch-el" data-text="shep_admin">shep_admin</span> &nbsp;|&nbsp; clearance: none required, apparently</p>
+          <p style="color:var(--muted)">— last modified: [REDACTED] &nbsp;|&nbsp; owner: <span id="glitch-admin" class="glitch-el" data-text="shep_admin">shep_admin</span> &nbsp;|&nbsp; clearance: [FRAGMENTED]</p>
         </div>
       </div>
 
@@ -609,12 +609,12 @@
       <div id="pane-chess" class="pane">
         <div class="prompt">&gt; open <span>board_state_final.fen</span></div>
         <div class="pane-title">board_state_final.fen</div>
-        <div class="pane-meta">FEN: r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4 &nbsp;|&nbsp; annotated by: unknown</div>
+        <div class="pane-meta">FEN: 6k1/4q2R/7p/3Q4/8/8/8/4R1K1 w - - 0 1 &nbsp;|&nbsp; annotated by: unknown</div>
         <div id="board"></div>
         <div class="board-note">
-          Position reached after 3 moves. <span>White's bishop on c4 is watching f7.</span><br/>
-          This is not a game record. This is a message.<br/><br/>
-          <span style="color:var(--muted)">Cross-reference with ref_003.url.</span>
+          Classic Darnley Endgame. The king is cornered. The rooks seal every exit. The pawn on h6 closes the last door.<br/><br/>
+          <span>One of these pieces is not real. Remove it and everything instantly ends. There is no escape, no ambiguity.</span><br/><br/>
+          Does knowing which piece isn't real change the outcome? Or are the scales of fate unaffected?
         </div>
       </div>
 
@@ -933,24 +933,16 @@
   });
 
 
-  // FEN: r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R
-  const FEN = 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R';
+  // ── Chess board ──
+  const FEN = '6k1/4q2R/7p/3Q4/8/8/8/4R1K1';
   const PIECES = {
     r:'♜', n:'♞', b:'♝', q:'♛', k:'♚', p:'♟',
     R:'♖', N:'♘', B:'♗', Q:'♕', K:'♔', P:'♙'
   };
-  // squares to highlight (0-indexed, row-major from rank 8)
-  const HIGHLIGHTS = [
-    2,  // c8 — black bishop
-    26, // c4 — white bishop (row 4 = index 24+2)
-    55  // f2 — f7 target square (rank 2 from white's perspective = row index 6, file f=5 → 48+5=53... recalc below)
-  ];
-
+  // g8=6 (black K), e7=12 (black Q), h7=15 (white R), h6=23 (black pawn), d5=35 (white Q), e1=60 (white R), g1=62 (white K)
+  const hlSet = new Set([12, 15, 23, 35, 60]);
   const board = document.getElementById('board');
   const rows = FEN.split('/');
-  // highlight set: c8=2, c4=26 (rank5,file3 → row3*8+2=26), f7=13 (rank7,file6 → row1*8+5=13)
-  const hlSet = new Set([2, 13, 26]);
-
   rows.forEach((row, ri) => {
     let fi = 0;
     for (const ch of row) {
