@@ -375,6 +375,54 @@
     .tree-item.locked { color: var(--red); opacity: 0.7; }
     .tree-item.locked:hover { color: var(--red); opacity: 1; background: #1a0a0a; }
     .tree-item.locked.active { background: #1a0a0a; color: var(--red); border-left-color: var(--red); opacity: 1; }
+
+    /* ── Locked folders ── */
+    .tree-folder-locked {
+      padding: 0.3rem 1rem;
+      color: var(--red);
+      cursor: pointer;
+      user-select: none;
+      opacity: 0.8;
+      transition: opacity 0.15s, background 0.15s;
+    }
+    .tree-folder-locked:hover { opacity: 1; background: #1a0a0a; }
+    .tree-folder-locked::before { content: '🔒 '; font-size: 9px; }
+    .tree-folder-unlocked {
+      padding: 0.3rem 1rem;
+      color: var(--amber);
+      cursor: default;
+      user-select: none;
+    }
+    .tree-folder-unlocked::before { content: '▶ '; font-size: 9px; }
+    .folder-children { display: none; }
+    .folder-children.visible { display: block; }
+
+    /* ── Password modal ── */
+    #pw-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    #pw-overlay.active { display: flex; }
+    #pw-box {
+      border: 1px solid var(--red);
+      background: var(--panel);
+      padding: 2rem;
+      min-width: 380px;
+      max-width: 480px;
+    }
+    #pw-box .pw-title { color: var(--red); font-size: 1rem; margin-bottom: 0.4rem; letter-spacing: 0.08em; }
+    #pw-box .pw-sub { color: var(--muted); font-size: 11px; margin-bottom: 1.5rem; }
+    #pw-box .terminal-line { margin-bottom: 0.5rem; }
+    #pw-response { font-size: 12px; min-height: 1.4rem; letter-spacing: 0.04em; margin-top: 0.5rem; }
+    #pw-response.denied  { color: var(--red); }
+    #pw-response.granted { color: var(--green); }
+    #pw-cancel { margin-top: 1rem; color: var(--muted); font-size: 11px; cursor: pointer; background: none; border: none; font-family: var(--font); }
+    #pw-cancel:hover { color: var(--text); }
     .tree-divider { border-top: 1px solid var(--border); margin: 0.5rem 0; }
     #decrypt-form { margin-top: 1.5rem; max-width: 560px; }
     .terminal-line {
@@ -438,43 +486,85 @@
         <span class="icon">📄</span>
         <span class="fname">notes_internal.txt</span>
       </div>
-      <div class="tree-item" data-pane="pane-email">
-        <span class="icon">📄</span>
-        <span class="fname">alt_scenario_draft.eml</span>
-      </div>
       <div class="tree-item" onclick="window.location='search.html'">
         <span class="icon">🔍</span>
         <span class="fname">personnel_search.exe</span>
         <span class="badge">run</span>
       </div>
-      <div class="tree-item" onclick="window.location='ref.html'">
-        <span class="icon">📂</span>
-        <span class="fname">ref_external/</span>
-        <span class="badge">open</span>
+
+      <!-- LOCKED FOLDERS -->
+      <div class="tree-folder-locked" data-folder="Erin">Erin</div>
+      <div class="folder-children" id="folder-Erin">
+        <div class="tree-item" data-pane="pane-rogers">
+          <span class="icon">📄</span>
+          <span class="fname">ROGERS.personnel</span>
+        </div>
+        <div class="tree-item" data-pane="pane-link3">
+          <span class="icon">🔗</span>
+          <span class="fname">middle_child.mov</span>
+        </div>
+        <div class="tree-item" data-pane="pane-link2">
+          <span class="icon">🔗</span>
+          <span class="fname">sitr.mov</span>
+        </div>
+        <div class="tree-item" data-pane="pane-corp-email">
+          <span class="icon">📄</span>
+          <span class="fname">corp_email_mod.eml</span>
+        </div>
       </div>
 
-      <div class="tree-folder">assets</div>
-      <div class="tree-item" data-pane="pane-chess">
-        <span class="icon">♟</span>
-        <span class="fname">board_state_final.fen</span>
-      </div>
-      <div class="tree-item" data-pane="pane-menu">
-        <span class="icon">🍽</span>
-        <span class="fname">au_demain_menu.png</span>
-      </div>
-      <div class="tree-item" data-pane="pane-relativity">
-        <span class="icon">🖼</span>
-        <span class="fname">relativity.png</span>
-      </div>
-      <div class="tree-item" data-pane="pane-video">
-        <span class="icon">▶</span>
-        <span class="fname">goingDownTheRabbitHole.mp4</span>
-        <span class="badge red">enc</span>
+      <div class="tree-folder-locked" data-folder="Reynolds">Reynolds</div>
+      <div class="folder-children" id="folder-Reynolds">
+        <div class="tree-item" data-pane="pane-velveteen">
+          <span class="icon">📄</span>
+          <span class="fname">VELVETEEN.personnel</span>
+        </div>
+        <div class="tree-item" data-pane="pane-link1">
+          <span class="icon">🔗</span>
+          <span class="fname">velveteen.html</span>
+        </div>
+        <div class="tree-item" data-pane="pane-relativity">
+          <span class="icon">🖼</span>
+          <span class="fname">relativity.png</span>
+        </div>
+        <div class="tree-item" data-pane="pane-email">
+          <span class="icon">📄</span>
+          <span class="fname">alt_scenario_draft.eml</span>
+        </div>
       </div>
 
-      <div class="tree-item" data-pane="pane-corp-email">
-        <span class="icon">📄</span>
-        <span class="fname">corp_email_mod.eml</span>
+      <div class="tree-folder-locked" data-folder="Jacelyn">Jacelyn</div>
+      <div class="folder-children" id="folder-Jacelyn">
+        <div class="tree-item" data-pane="pane-moover">
+          <span class="icon">📄</span>
+          <span class="fname">MOOVER.personnel</span>
+        </div>
+        <div class="tree-item" data-pane="pane-chess">
+          <span class="icon">♟</span>
+          <span class="fname">board_state_final.fen</span>
+        </div>
+        <div class="tree-item" data-pane="pane-menu">
+          <span class="icon">🍽</span>
+          <span class="fname">au_demain_menu.png</span>
+        </div>
+        <div class="tree-item" onclick="window.location='ref.html'" style="padding-left:3rem">
+          <span class="icon">📂</span>
+          <span class="fname">ref_external/</span>
+          <span class="badge">open</span>
+        </div>
+      </div>
+
+      <div class="tree-folder-locked" data-folder="Adam">Adam</div>
+      <div class="folder-children" id="folder-Adam">
+        <div class="tree-item" data-pane="pane-video">
+          <span class="icon">▶</span>
+          <span class="fname">goingDownTheRabbitHole.mp4</span>
+          <span class="badge red">enc</span>
+        </div>
+        <div class="tree-item" data-pane="pane-link4">
+          <span class="icon">🔗</span>
+          <span class="fname">sacrifice.html</span>
+        </div>
       </div>
 
       <div class="tree-divider"></div>
@@ -484,24 +574,6 @@
         <span class="badge red">locked</span>
       </div>
       <div class="tree-divider"></div>
-
-      <div class="tree-folder">refs</div>
-      <div class="tree-item" data-pane="pane-link1">
-        <span class="icon">🔗</span>
-        <span class="fname">velveteen.html</span>
-      </div>
-      <div class="tree-item" data-pane="pane-link2">
-        <span class="icon">🔗</span>
-        <span class="fname">sitr.mov</span>
-      </div>
-      <div class="tree-item" data-pane="pane-link3">
-        <span class="icon">🔗</span>
-        <span class="fname">middle_child.mov</span>
-      </div>
-      <div class="tree-item" data-pane="pane-link4">
-        <span class="icon">🔗</span>
-        <span class="fname">sacrifice.html</span>
-      </div>
     </div>
 
     <!-- ══ CONTENT PANEL ══ -->
@@ -783,6 +855,70 @@
         </div>
       </div>
 
+      <!-- PERSONNEL FILES -->
+      <div id="pane-rogers" class="pane">
+        <div class="prompt">&gt; open <span>ROGERS.personnel</span></div>
+        <div class="pane-title">ROGERS.personnel</div>
+        <div class="pane-meta">PERSONNEL FILE — Erin &nbsp;|&nbsp; clearance: Level 3 &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>[REDACTED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>ROGERS</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Principle Engineer II</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 3</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Last known loc:</span> <span style="color:var(--red)">Paris, FR</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">NDA signed:</span> <span>Yes — 14 March</span></div>
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:12px;line-height:1.9">
+            <p>&gt; Recruited as team support but quickly became more pivotal after proving her technical skills.</p>
+            <p>&gt; Most files mention her alongside [MOOVER], though it's unclear if the two were friends before Shep or met during.</p>
+            <p>&gt; Termination of contract followed discovery of an unauthorised external communication. Contents of communication: unknown.</p>
+            <p>&gt; Related files: au_demain_menu.png — another document mentions a standing reservation at Au Demain, Paris 11e, under her name. Not sure how it relates to Shep.</p>
+          </div>
+          <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [CLASSIFIED] — FURTHER QUERIES: RESTRICTED</div>
+        </div>
+      </div>
+
+      <div id="pane-velveteen" class="pane">
+        <div class="prompt">&gt; open <span>VELVETEEN.personnel</span></div>
+        <div class="pane-title">VELVETEEN.personnel</div>
+        <div class="pane-meta">PERSONNEL FILE — Reynolds &nbsp;|&nbsp; clearance: Level 4 (revoked) &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>[REDACTED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>VELVETEEN</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Technical Project Manager</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 4 (revoked)</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Last known loc:</span> <span style="color:var(--red)">Boulder, CO</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">NDA signed:</span> <span>Yes — 14 March</span></div>
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:12px;line-height:1.9">
+            <p>&gt; First hire to the project, went on to choose the name of the environment himself.</p>
+            <p>&gt; Raised concerns internally about the scope of data collection. Concerns were logged and dismissed.</p>
+            <p>&gt; Uniquely favored by the old guard but despised by the False Idol. No formal exit interview on file.</p>
+            <p>&gt; Related files: velveteen.html — his favorite story, but what might it represent?</p>
+          </div>
+          <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED</div>
+        </div>
+      </div>
+
+      <div id="pane-moover" class="pane">
+        <div class="prompt">&gt; open <span>MOOVER.personnel</span></div>
+        <div class="pane-title">MOOVER.personnel</div>
+        <div class="pane-meta">PERSONNEL FILE — Jacelyn &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>[REDACTED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>MOOVER</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Principle Engineer III</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 5</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Last known loc:</span> <span style="color:var(--red)">[CLASSIFIED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">NDA signed:</span> <span>Yes — 14 March</span></div>
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:12px;line-height:1.9">
+            <p>&gt; Second hire to the project, directly on the recommendation of [VELVETEEN]. The intake documentation lists her role as "systems oversight" but no further detail exists.</p>
+            <p>&gt; Level 5 clearance was not assigned by any member of the team we have been able to identify — likely a result of her ascension.</p>
+            <p>&gt; Moover has but a single mention in the project record — why was her involvement scrubbed clean, and did she clear it or did someone else?</p>
+            <p>&gt; Related files: board_state_final.fen — the annotation is hers. Unsure what it means but all other files associated with her name are waterlogged beyond legibility.</p>
+          </div>
+          <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED</div>
+        </div>
+      </div>
+
       <!-- LOCKED FILE -->
       <div id="pane-locked" class="pane">
         <div class="prompt">&gt; open <span style="color:var(--red)">classified_final.enc</span></div>
@@ -816,6 +952,20 @@
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /shell -->
+
+<!-- PASSWORD MODAL -->
+<div id="pw-overlay">
+  <div id="pw-box">
+    <div class="pw-title">🔒 ACCESS RESTRICTED</div>
+    <div class="pw-sub" id="pw-sub">This folder is locked. Enter the password to unlock it permanently.</div>
+    <div class="terminal-line">
+      <span class="tl-prompt">&gt; unlock</span>
+      <input id="pw-input" type="password" placeholder="____________" autocomplete="off" spellcheck="false" />
+    </div>
+    <div id="pw-response"></div>
+    <button id="pw-cancel">&gt; cancel</button>
+  </div>
+</div>
 
 <script>
   // ── Redacted click-to-reveal ──
@@ -874,13 +1024,118 @@
   })();
 
   // ── File tree navigation ──
-  document.querySelectorAll('.tree-item').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
-      document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-      item.classList.add('active');
-      document.getElementById(item.dataset.pane).classList.add('active');
+  function bindTreeItems() {
+    document.querySelectorAll('.tree-item').forEach(item => {
+      if (item._bound) return;
+      item._bound = true;
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+        item.classList.add('active');
+        const pane = document.getElementById(item.dataset.pane);
+        if (pane) pane.classList.add('active');
+      });
     });
+  }
+  bindTreeItems();
+
+  // ── Locked folders ──
+  const FOLDER_PASSWORDS = { Erin: 'Erin', Reynolds: 'Reynolds', Jacelyn: 'Jacelyn', Adam: 'Adam' };
+  const UNLOCK_KEY = 'shep_unlocked_folders';
+
+  function getUnlocked() {
+    try { return JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); } catch { return []; }
+  }
+  function saveUnlocked(list) {
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify(list));
+  }
+
+  function unlockFolder(name) {
+    const header = document.querySelector(`.tree-folder-locked[data-folder="${name}"], .tree-folder-unlocked[data-folder="${name}"]`);
+    const children = document.getElementById(`folder-${name}`);
+    if (!header || !children) return;
+    header.className = 'tree-folder-unlocked';
+    header.dataset.folder = name;
+    children.classList.add('visible');
+    bindTreeItems();
+  }
+
+  // Apply persisted unlocks on load
+  getUnlocked().forEach(unlockFolder);
+
+  // Password modal logic
+  const overlay = document.getElementById('pw-overlay');
+  const pwInput = document.getElementById('pw-input');
+  const pwResponse = document.getElementById('pw-response');
+  const pwSub = document.getElementById('pw-sub');
+  let pendingFolder = null;
+  let pwDenied = false;
+
+  document.querySelectorAll('.tree-folder-locked').forEach(folder => {
+    folder.addEventListener('click', () => openPwModal(folder.dataset.folder));
+  });
+
+  // Also intercept clicks on locked folder children (folder is locked, children hidden — but just in case)
+  function openPwModal(name) {
+    // If already unlocked, do nothing
+    if (getUnlocked().includes(name)) return;
+    pendingFolder = name;
+    pwInput.value = '';
+    pwResponse.textContent = '';
+    pwResponse.className = '';
+    pwSub.textContent = `Folder "${name}" is locked. Enter the password to unlock it permanently.`;
+    overlay.classList.add('active');
+    setTimeout(() => pwInput.focus(), 50);
+  }
+
+  document.getElementById('pw-cancel').addEventListener('click', () => {
+    overlay.classList.remove('active');
+    pendingFolder = null;
+    pwDenied = false;
+  });
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+      pendingFolder = null;
+      pwDenied = false;
+    }
+  });
+
+  pwInput.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || !pendingFolder) return;
+    const val = pwInput.value.trim();
+    const correct = val === FOLDER_PASSWORDS[pendingFolder];
+    if (correct) {
+      pwResponse.className = 'granted';
+      pwResponse.textContent = '> access granted. unlocking folder...';
+      pwInput.disabled = true;
+      const name = pendingFolder;
+      setTimeout(() => {
+        const unlocked = getUnlocked();
+        if (!unlocked.includes(name)) unlocked.push(name);
+        saveUnlocked(unlocked);
+        unlockFolder(name);
+        overlay.classList.remove('active');
+        pwInput.disabled = false;
+        pendingFolder = null;
+        pwDenied = false;
+      }, 700);
+    } else {
+      if (pwDenied) return;
+      pwDenied = true;
+      pwResponse.className = 'denied';
+      const msgs = ['> ERROR: incorrect password', '> ACCESS DENIED', '> attempt logged', '> ...'];
+      let mi = 0;
+      const iv = setInterval(() => {
+        pwResponse.textContent = msgs[mi++];
+        if (mi >= msgs.length) {
+          clearInterval(iv);
+          setTimeout(() => { pwResponse.textContent = ''; pwDenied = false; }, 1200);
+        }
+      }, 120);
+      pwInput.value = '';
+    }
   });
 
   // ── Locked file password ──
