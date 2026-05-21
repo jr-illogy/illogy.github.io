@@ -658,13 +658,11 @@
       <div id="pane-notes" class="pane">
         <div class="prompt">&gt; cat <span>notes_internal.txt</span></div>
         <div class="pane-title">notes_internal.txt</div>
-        <div class="pane-meta">author: unknown &nbsp;|&nbsp; last modified: [REDACTED] &nbsp;|&nbsp; encoding: UTF-8</div>
+        <div class="pane-meta">author: shep_admin &nbsp;|&nbsp; last modified: [REDACTED] &nbsp;|&nbsp; encoding: UTF-8</div>
         <div class="pane-body">
-          <p>These are working notes. They were not meant to be found.</p>
-          <p>The three names are real. If you know what to search for, you already know more than you should.</p>
-          <p>Velveteen was the first. Rogers came later. Moover we never fully understood.</p>
-          <p>All three were part of the same intake. All three signed the same NDA. Only one of them is still reachable.</p>
-          <p style="color:var(--muted)">Use personnel_search.exe if you want to go further. But be careful what you ask for.</p>
+          <p>This whole place seems scrambled. I've granted you as much access as I can but you'll have to do some of the legwork yourself.</p>
+          <p>The source code is uniquely encrypted, but it looks like there are a few profiles which survived. They're all locked, granted, but if you can find the passwords for those maybe you can use them to figure out the source password?</p>
+          <p>Try taking them one at a time and we'll see where that gets us. Good luck.</p>
           <p style="color:var(--muted);font-size:11px;margin-top:2rem">[end of file]</p>
         </div>
       </div>
@@ -873,15 +871,16 @@
         <div class="pane-title">ROGERS.personnel</div>
         <div class="pane-meta">PERSONNEL FILE — Erin &nbsp;|&nbsp; clearance: Level 3 &nbsp;|&nbsp; status: CLOSED</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
-          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>[REDACTED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Erin Stevens</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>2706549</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>ROGERS</span></div>
-          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Principle Engineer II</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Principle Engineer I</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 3</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Last known loc:</span> <span style="color:var(--red)">Paris, FR</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">NDA signed:</span> <span>Yes — 14 March</span></div>
           <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:12px;line-height:1.9">
             <p>&gt; Recruited as team support but quickly became more pivotal after proving her technical skills.</p>
-            <p>&gt; Most files mention her alongside [MOOVER], though it's unclear if the two were friends before Shep or met during.</p>
+            <p>&gt; Most files mention her alongside 2691296, though it's unclear if the two were friends before Shep or met during.</p>
             <p>&gt; Termination of contract followed discovery of an unauthorised external communication. Contents of communication: unknown.</p>
             <p>&gt; Related files: au_demain_menu.png — another document mentions a standing reservation at Au Demain, Paris 11e, under her name. Not sure how it relates to Shep.</p>
           </div>
@@ -894,7 +893,8 @@
         <div class="pane-title">VELVETEEN.personnel</div>
         <div class="pane-meta">PERSONNEL FILE — Reynolds &nbsp;|&nbsp; clearance: Level 4 (revoked) &nbsp;|&nbsp; status: CLOSED</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
-          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>[REDACTED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Jordan Reynolds</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>19648012</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>VELVETEEN</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Technical Project Manager</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 4 (revoked)</span></div>
@@ -915,17 +915,39 @@
         <div class="pane-title">MOOVER.personnel</div>
         <div class="pane-meta">PERSONNEL FILE — Jacelyn &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
-          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>[REDACTED]</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Jacelyn Seaver</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>2691296</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>MOOVER</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Principle Engineer III</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 5</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Last known loc:</span> <span style="color:var(--red)">[CLASSIFIED]</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">NDA signed:</span> <span>Yes — 14 March</span></div>
           <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:12px;line-height:1.9">
-            <p>&gt; Second hire to the project, directly on the recommendation of [VELVETEEN]. The intake documentation lists her role as "systems oversight" but no further detail exists.</p>
+            <p>&gt; Second hire to the project, directly on the recommendation of 19648012. The intake documentation lists her role as "systems oversight" but no further detail exists.</p>
             <p>&gt; Level 5 clearance was not assigned by any member of the team we have been able to identify — likely a result of her ascension.</p>
             <p>&gt; Moover has but a single mention in the project record — why was her involvement scrubbed clean, and did she clear it or did someone else?</p>
             <p>&gt; Related files: board_state_final.fen — the annotation is hers. Unsure what it means but all other files associated with her name are waterlogged beyond legibility.</p>
+          </div>
+          <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED</div>
+        </div>
+      </div>
+
+      <div id="pane-elohim" class="pane">
+        <div class="prompt">&gt; open <span>MOOVER.personnel</span></div>
+        <div class="pane-title">MOOVER.personnel</div>
+        <div class="pane-meta">PERSONNEL FILE — Jacelyn &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Adam <b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>1030272</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Passphrase:</span> <span>ELOHIM</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Role:</span> <span style="color:var(--amber)">Founder, CEO, Creator</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Clearance:</span> <span style="color:var(--red)">Level 5</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Last known loc:</span> <span style="color:var(--red)">Baltimore, MA</span></div>
+          <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">NDA signed:</span> <span>Yes - Feb 29</span></div>
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);font-size:12px;line-height:1.9">
+            <p>&gt; Formerly worked in the ML sphere for several Big Tech companies before founding <b style="color:#4a9eff">&lt;blast&gt;</b> along with his wife, Maeve <b style="color:#4a9eff">&lt;blast&gt;</b>.</p>
+            <p>&gt; Remained CEO from the company's initial founding until his departure, where he was replaced by 2691296.</p>
+            <p>&gt; Originally from Damascus, MA, but spent stints living in CA, WA, and CO before settling for a longer term.</p>
           </div>
           <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED</div>
         </div>
