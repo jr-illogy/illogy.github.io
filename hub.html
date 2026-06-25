@@ -522,7 +522,7 @@
         </div>
         <div class="tree-item" data-pane="pane-corp-email">
           <span class="icon">📄</span>
-          <span class="fname">corp_email_mod.eml</span>
+          <span class="fname">mod_inquiry.eml</span>mod_inquiry.eml
         </div>
         <div class="tree-item" data-pane="pane-voicenote">
           <span class="icon">🎙</span>
@@ -575,6 +575,10 @@
         <div class="tree-item" data-pane="pane-cleanout">
           <span class="icon">&#128196;</span>
           <span class="fname">clean_your_computer_day.eml</span>
+        </div>
+        <div class="tree-item" data-pane="pane-prosthetic">
+          <span class="icon">&#128196;</span>
+          <span class="fname">prosthetic_options.txt</span>
         </div>
         <div class="tree-item" data-pane="pane-chess">
           <span class="icon">♟</span>
@@ -785,7 +789,7 @@
               <span>Risotto du jour</span><span class="dots"></span><span class="price">17</span>
             </div>
             <div class="menu-item">
-              <span style="color:#c00">Salade de lapin <em style="font-size:0.7rem">(spécialité)</em></span><span class="dots"></span><span class="price">25</span>
+              <span style="color:#c00">Salade de lapin <em style="font-size:0.7rem">(spécialité)</em></span><span class="dots"></span><span class="price">20</span>
             </div>
           </div>
 
@@ -845,7 +849,7 @@
         <a class="link-card" href="https://www.youtube.com/watch?v=OmrUJ3ssLPM" target="_blank" rel="noopener">
           <span class="lc-icon">🔗</span>
           <div class="lc-body">
-            <div class="lc-title">reynolds_inspo</div>
+            <div class="lc-title">sitr.mov</div>
             <div class="lc-url">youtube.com</div>
             <div class="lc-desc">I'd bet all my money this was the initial inspiration for her passphrase. She's always so obsessed with musicals, especially this one...</div>
           </div>
@@ -884,8 +888,8 @@
 
       <!-- CORP EMAIL -->
       <div id="pane-corp-email" class="pane">
-        <div class="prompt">&gt; cat <span>corp_email_mod.eml</span></div>
-        <div class="pane-title">corp_email_mod.eml</div>
+        <div class="prompt">&gt; cat <span>mod_inquiry.eml</span></div>
+        <div class="pane-title">mod_inquiry.eml</div>
         <div class="pane-meta">filetype: 2706549/message &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
 
         <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
@@ -898,6 +902,7 @@
         <div class="pane-body">
           <p>Erin,</p>
           <p>Been a minute, how've you been? I heard you've been hanging out with Jacelyn quite a bit these days&hellip; it'd be funny if her name was Katherine, I mean I know her passphrase is clever and I get that it comes from the whole 'moover and shaker' thing, I get the pun, I just think it would be <em>even more</em> clever if her name was Katherine because then she could be 'Calf-erine'! Say it with a speech impediment and you'll see what I'm getting at.</p>
+          <p>Speaking of, how's she doing? I heard something about an insane amount of customization options available to her - I mean, she had <span data-glitch-text>how many finishing options</span> available to her? That doesn't happen to just anyone, believe me.</p>
           <p>Anyway, just wanted to ask real quick about the whole modulo thing I've seen you doing lately. I get the concept, it's just basically a fancy version of a remainder after performing a division. 10 mod 4 is 2, 11 mod 12 is 11, and so on. I get the problem space you're using it in too: cropping a number outside a set of defined bounds to fit within those confines, very clever. It makes binning way more efficient too &mdash; like I said, I get it. I was wondering if you've also thought about using it for data splitting when we get to it? I figure it's easy enough for cross-validation to just assign data points to specific folds with <span style="color:var(--red);font-family:var(--font)">index % numFolds</span>.</p>
           <p>I realize we aren't there yet, but if you're thinking you'll want to use this same functionality again when we get to it, it might be helpful to containerize it now so it's a bit easier to reuse it down the line. You know best, this is just food for thought, but if that's the path you ultimately decide to go down, just know I'll expect at least partial credit when the time comes.</p>
           <p style="margin-top:1.5rem">Enjoy your 'Modulo' time,<br/><span style="color:var(--muted)"><b style="color:#4a9eff">&lt;blast&gt;</b></span></p>
@@ -988,6 +993,7 @@
             <p>&gt; Formerly worked in the ML sphere for several Big Tech companies before founding <b style="color:#4a9eff">&lt;blast&gt;</b> along with his wife, Maeve <b style="color:#4a9eff">&lt;blast&gt;</b>.</p>
             <p>&gt; Remained CEO from the company's initial founding until his departure, where he was replaced by 2691296.</p>
             <p>&gt; Originally from Damascus, MA, but spent stints living in CA, WA, and CO before settling for a longer term.</p>
+            <p>&gt; Related files: missing_persons_report.txt — Wait, if Adam is dead, how is this being written? Who is he? Who am *I*? What the hell is all this? Is this... is this hell?</p>
           </div>
           <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED</div>
         </div>
@@ -1002,9 +1008,13 @@
           <p>You may not need it, but as far as I've gathered there are certain files which seem uniquely corrupted. Maybe the path forward can be found in the intersections between them?</p>
           <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 2; color: var(--text);">
             <li style="color: var(--muted)">[file 1]</li>
-            <li style="color: var(--muted)">[file 2]</li>
-            <li style="color: var(--muted)">[file 3]</li>
-            <li style="color: var(--muted)">[file 4]</li>
+            <li style="color: var(--muted)">mod_inquiry.eml</li>
+            <li style="color: var(--muted)">clean_your_computer_day.eml</li>
+            <li style="color: var(--muted)">rabbit_motif_paper.txt</li>
+            <li style="color: var(--muted)">missing_persons_report.txt</li>
+            <li style="color: var(--muted)">au_demain_menu.png</li>
+            <li style="color: var(--muted)">[file 31]</li>
+            <li style="color: var(--muted)">[file 41]</li>
           </ul>
           <p style="color:var(--muted);font-size:11px;margin-top:2rem">[end of file]</p>
         </div>
@@ -1305,6 +1315,39 @@
         <p style="color:var(--muted);font-size:11px;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">SOURCE: internal scheduling system &nbsp;|&nbsp; CLASSIFICATION: internal &nbsp;|&nbsp; NOTE: year redacted</p>
       </div>
 
+      <!-- PROSTHETIC OPTIONS -->
+      <div id="pane-prosthetic" class="pane">
+        <div class="prompt">&gt; cat <span>prosthetic_options.txt</span></div>
+        <div class="pane-title">prosthetic_options.txt</div>
+        <div class="pane-meta">type: patient documentation &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+        <div class="pane-body" style="max-width:680px;font-size:12px">
+
+          <p>The response from the community was, frankly, overwhelming. People gave what they had &mdash; rings, chains, old watch cases, heirlooms they were willing to part with. All of it was melted down and consolidated into the base material for the prosthetic. What came out of that process is something genuinely remarkable: a single, solid gold prosthetic made possible entirely by the generosity of other people.</p>
+
+          <p>That said, &ldquo;solid gold&rdquo; does not mean &ldquo;one size fits all.&rdquo; Because the donated gold came from a variety of sources, the alloy composition affects the final colour of the piece. There is some natural variation in tone, but within that variation there is also meaningful choice. The following colour options are available depending on the composition of the donated materials used in your unit:</p>
+
+          <ul style="margin: 0.75rem 0 1.25rem 1.5rem; line-height: 2;">
+            <li><strong style="color:var(--text)">Yellow Gold</strong> &mdash; the most traditional tone, warm and immediately recognisable</li>
+            <li><strong style="color:var(--text)">Rose Gold</strong> &mdash; a softer, warmer hue from higher copper content in the donated alloy</li>
+            <li><strong style="color:var(--text)">White Gold</strong> &mdash; a cooler, more silvered tone achieved through the palladium content present in some donated pieces</li>
+            <li><strong style="color:var(--text)">Green Gold</strong> &mdash; rare; only available in units where sufficient silver-rich donations were included in the melt</li>
+          </ul>
+
+          <p>Beyond colour, four surface finish options are available at no additional cost. Each finish is applied after casting and does not affect the structural integrity of the prosthetic in any way.</p>
+
+          <ul style="margin: 0.75rem 0 1.25rem 1.5rem; line-height: 2;">
+            <li><strong style="color:var(--text)">Polished</strong> &mdash; a high-shine mirror finish; the most reflective option and the most visually prominent</li>
+            <li><strong style="color:var(--text)">Brushed Finish</strong> &mdash; a fine linear texture that diffuses light and reduces glare; understated and clean</li>
+            <li><strong style="color:var(--text)">Matte Finish</strong> &mdash; no sheen; a flat, non-reflective surface that sits quietly against the skin</li>
+            <li><strong style="color:var(--text)">Hammered Finish</strong> &mdash; a faceted, irregular surface texture created by hand; each piece is unique as a result</li>
+          </ul>
+
+          <p>Finish selection should be submitted alongside your sizing confirmation. If no preference is indicated, the default is brushed finish.</p>
+
+          <p style="color:var(--muted);font-size:11px;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border)">SOURCE: patient documentation &nbsp;|&nbsp; CLASSIFICATION: internal &nbsp;|&nbsp; NOTE: donor records retained separately</p>
+        </div>
+      </div>
+
       <!-- CLEAN YOUR COMPUTER DAY -->
       <div id="pane-cleanout" class="pane">
         <div class="prompt">&gt; cat <span>clean_your_computer_day.eml</span></div>
@@ -1326,7 +1369,7 @@
             <li>Deleting files, folders, and applications you no longer need</li>
             <li>Emptying your downloads folder and clearing your desktop</li>
             <li>Reviewing and removing any locally stored sensitive or confidential materials that should not be retained</li>
-            <li>Removing any and all unpublished fictional stories from hard drives (*cough* Mark *cough*)</li>
+            <li>Removing any and all unpublished fictional stories from hard drives that have nothing to do with what we are paid to do (*cough* Mark *cough*)</li>
             <li>Ensuring your device OS and security software are fully up to date</li>
           </ul>
           <p>If you have any files you are unsure about retaining, please err on the side of deletion or check with your team lead before the day. IT will be available throughout to assist as needed.</p>
@@ -1437,7 +1480,7 @@
           <div class="lc-body">
             <div class="lc-title">Reexamining the Idea That &ldquo;Life is a Circle&rdquo;</div>
             <div class="lc-url">medium.com</div>
-            <div class="lc-desc">Found in history, last visited shortly after it was published. Visited <span data-glitch-text>four</span> times.</div>
+            <div class="lc-desc">Found in history, last visited shortly after it was published. Visited four times.</div>
           </div>
         </a>
       </div>
