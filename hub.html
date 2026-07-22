@@ -524,6 +524,18 @@
           <span class="icon">🎙</span>
           <span class="fname">testamoninal_1103-b.txt</span>
         </div>
+        <div class="tree-item" data-pane="pane-psalm">
+          <span class="icon">📄</span>
+          <span class="fname">psalm.txt</span>
+        </div>
+        <div class="tree-item" data-pane="pane-floodtheory">
+          <span class="icon">📄</span>
+          <span class="fname">flood_theory_paper.txt</span>
+        </div>
+        <div class="tree-item" data-pane="pane-link6">
+          <span class="icon">🔗</span>
+          <span class="fname">space.html</span>
+        </div>
         <div class="tree-item" data-pane="pane-therapy">
           <span class="icon">📄</span>
           <span class="fname">session_transcript.txt</span>
@@ -564,6 +576,10 @@
           <span class="icon">📄</span>
           <span class="fname">ghost_transcript.txt</span>
         </div>
+        <div class="tree-item" data-pane="pane-musings-II">
+          <span class="icon">📄</span>
+          <span class="fname">whoami.eml</span>
+        </div>
         <div class="tree-item" data-pane="pane-water">
           <span class="icon">&#128196;</span>
           <span class="fname">water_outage_notice.eml</span>
@@ -596,6 +612,10 @@
           <span class="icon">&#128196;</span>
           <span class="fname">color_analysis.eml</span>
         </div>
+        <div class="tree-item" data-pane="pane-people">
+          <span class="icon">&#128196;</span>
+          <span class="fname">how_many_people.eml</span>
+        </div>
         <div class="tree-item" data-pane="pane-menu">
           <span class="icon">🍽</span>
           <span class="fname">au_demain_menu.png</span>
@@ -607,6 +627,10 @@
         <div class="tree-item" data-pane="pane-meeting">
           <span class="icon">&#128196;</span>
           <span class="fname">meeting_transcript_01.txt</span>
+        </div>
+        <div class="tree-item" data-pane="pane-locksmith">
+          <span class="icon">📄</span>
+          <span class="fname">locksmith.txt</span>
         </div>
         <div class="tree-item" data-pane="pane-chat">
           <span class="icon">&#128196;</span>
@@ -859,6 +883,22 @@
         </div>
       </div>
 
+      <!-- GATE HINT -->
+      <div id="pane-locksmith" class="pane">
+        <div class="prompt">&gt; cat <span>locksmith.txt</span></div>
+        <div class="pane-body">
+          <p style="color:#0000ff;font-size:11px;margin-top:1rem">When you arrive at the gate, be sure you have the key.<br/><br/>
+            You must find its hole - be methodical, not hasty.<br/><br/>
+            Highlight the space, and then press Ctrl+F.<br/><br/>
+            Input, watch, listen, and you&rsquo;ll see - don&rsquo;t be deaf.<br/><br/>
+            If you&rsquo;ve done it all right, you&rsquo;ll see 6 characters.<br/><br/>
+            Half letters, half numbers, together one word.<br/><br/>
+            That&rsquo;s your way forward, beyond the last gate.<br/><br/>
+            Your final task&rsquo;s waiting, now confront your fate.</p>
+          <p style="color:var(--muted)">— last modified: [REDACTED] &nbsp;|&nbsp; owner: <span id="glitch-admin" class="glitch-el" data-text="shep_admin">shep_admin</span> &nbsp;|&nbsp; clearance: [FRAGMENTED]</p>
+        </div>
+      </div>
+
       <!-- LINK: The Velveteen Rabbit Story -->
       <div id="pane-link1" class="pane">
         <div class="prompt">&gt; open <span>velveteen.html</span></div>
@@ -940,11 +980,40 @@
 
         <div class="pane-body">
           <p>Erin,</p>
-          <p>Been a minute, how&rsquo;ve you been? I heard you&rsquo;ve been hanging out with Jacelyn quite a bit these days&hellip; it&rsquo;d be funny if her name was Katherine, I mean I know her passphrase is clever and I get that it comes from the whole 'moover and shaker' thing, I get the pun, I just think it would be <em>even more</em> clever if her name was Katherine because then she could be 'Calf-erine'! Say it with a speech impediment and you&rsquo;ll see what I&rsquo;m getting at.</p>
+          <p>Been a minute, how&rsquo;ve you been? I heard you&rsquo;ve been hanging out with Jacelyn quite a bit these days&hellip; it&rsquo;d be funny if her name was Katherine, I mean I know her passphrase is clever and I get that it comes from the whole '<span data-glitch-text>moover</span> and shaker' thing, I get the pun, I just think it would be <em>even more</em> clever if her name was Katherine because then she could be 'Calf-erine'! Say it with a speech impediment and you&rsquo;ll see what I&rsquo;m getting at.</p>
           <p>Speaking of, how&rsquo;s she doing? I heard something about an insane amount of customization options available to her - I mean, she had <span data-glitch-text>how many finishing options</span> available to her? That doesn&rsquo;t happen to just anyone, believe me.</p>
           <p>Anyway, just wanted to ask real quick about the whole modulo thing I&rsquo;ve seen you doing lately. I get the concept, it&rsquo;s just basically a fancy version of a remainder after performing a division. 10 mod 4 is 2, 11 mod 12 is 11, and so on. I get the problem space you&rsquo;re using it in too: cropping a number outside a set of defined bounds to fit within those confines, very clever. It makes binning way more efficient too &mdash; like I said, I get it. I was wondering if you&rsquo;ve also thought about using it for data splitting when we get to it? I figure it&rsquo;s easy enough for cross-validation to just assign data points to specific folds with <span style="color:var(--red);font-family:var(--font)">index % numFolds</span>.</p>
           <p>I realize we aren&rsquo;t there yet, but if you&rsquo;re thinking you&rsquo;ll want to use this same functionality again when we get to it, it might be helpful to containerize it now so it&rsquo;s a bit easier to reuse it down the line. You know best, this is just food for thought, but if that&rsquo;s the path you ultimately decide to go down, just know I&rsquo;ll expect at least partial credit when the time comes.</p>
           <p style="margin-top:1.5rem">Enjoy your 'Modulo' time,<br/><span style="color:var(--muted)"><b style="color:#4a9eff">&lt;blast&gt;</b></span></p>
+          <div class="pane-meta" style="margin-top:2rem">SOURCE: recovered correspondence &nbsp;|&nbsp; CLASSIFICATION: internal</div>
+        </div>
+      </div>
+
+      <!-- MUSINGS II EMAIL -->
+      <div id="pane-musings-II" class="pane">
+        <div class="prompt">&gt; cat <span>whoami.eml</span></div>
+        <div class="pane-title">whoami.eml</div>
+        <div class="pane-meta">filetype: 2706549/message &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+
+        <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p2242264</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">TO:</span> <span style="color:var(--text)">p2706549</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">DATE:</span> <span style="color:var(--text)"><b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
+          <div style="color:var(--muted);margin-bottom:0"><span style="display:inline-block;min-width:80px">SUBJECT:</span> <span style="color:var(--amber)">Guessing game: Who Am I?</span></div>
+        </div>
+
+        <div class="pane-body">
+          <p>Reynolds,</p>
+          <p>Got a riddle for ya, I felt inspired by an email I sent Erin a while back. Let&rsquo;s see if you can crack our *person of interest* for the day:</p><br/>
+          <p>&emsp;“It doesn&rsquo;t matter if you&rsquo;re black or white”, Michael Jackson sang to me.<br/>
+            &emsp;Clearly this thing didn&rsquo;t listen, for it&rsquo;s somewhere in between.<br/><br/>
+            &emsp;You might think this thing&rsquo;s a ghost if not for all its dark spots,<br/>
+            &emsp;I may not be a cow, but like this thing I&rsquo;m eating lots.<br/><br/>
+            &emsp;I clack along as I walk, you might think that I have hooves,<br/>
+            &emsp;But I get shit done, I&rsquo;m a hard worker and my work is always good.<br/><br/>
+            &emsp;I&rsquo;m pleasant until you cross me, I&rsquo;ll *shake* things up as I turn into a witch,<br/>
+            &emsp;I&rsquo;m proud to be on Reynolds&rsquo; team, this project will surely launch without a hitch.</p>
+          <p style="margin-top:1.5rem;color:var(--muted);font-style:italic">Who am I?</p>
           <div class="pane-meta" style="margin-top:2rem">SOURCE: recovered correspondence &nbsp;|&nbsp; CLASSIFICATION: internal</div>
         </div>
       </div>
@@ -1301,13 +1370,13 @@
         <div class="pane-body">
           <p>You may not need it, but as far as I&rsquo;ve gathered there are certain files which seem uniquely corrupted. Maybe the path forward can be found in the intersections between them?</p>
           <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 2; color: var(--text);">
-            <li style="color: var(--muted)">[file 1]</li>
+            <li style="color: var(--muted)">how_many_people.eml</li>
             <li style="color: var(--muted)">mod_inquiry.eml</li>
             <li style="color: var(--muted)">clean_your_computer_day.eml</li>
             <li style="color: var(--muted)">rabbit_motif_paper.txt</li>
             <li style="color: var(--muted)">missing_persons_report.txt</li>
             <li style="color: var(--muted)">au_demain_menu.png</li>
-            <li style="color: var(--muted)">[file 31]</li>
+            <li style="color: var(--muted)">psalm.txt</li>
             <li style="color: var(--muted)">[file 41]</li>
           </ul>
           <p style="color:var(--muted);font-size:11px;margin-top:2rem">[end of file]</p>
@@ -1356,12 +1425,51 @@
           <p>In examining the idea of significance in a narrative text, there exists a concept known as a motif — a recurring element which holds unique additional significance beyond which is explicitly stated. This exists in all forms of storytelling: leitmotifs in music as fragments of melodies and rhythms, recurring imagery or structural elements in literature, visual cues in film, etc. These are images, sounds, words, patterns, themes, or otherwise which enhance understanding and depth of the initial text.</p>
           <p>Especially with the onset of the War on the Real, though, it is increasingly easy to view the surrounding world as a form of narrative text. As such, it may prove a beneficial exercise to examine the surrounding through the same methodologies and processes otherwise applied to other media for narrative storytelling. In this paper, my colleagues and I present the first step in this process: an examination of the 'rabbit' as a living motif in the physical world.</p>
           <p>Why start with the <span data-glitch-text>rabbit</span>? The origins of the War on the Real are relatively obscured, not nearly as delineated as an event like the killing of Archduke Franz Ferdinand which ignited World War I — though some scholars argue that the war 'began' in a similar sense with the Hack of the Five, which is otherwise referred to as the SoCal Split (Chan 43). Given that this war is uniquely ideological in its pretense, though, the authors of this paper interpret the true catalyst of the war to be precursory to the <span data-glitch-text>Hack of the Five</span>. Again, since the Hack of the Five is in many ways the first true physical 'event' of the war in the traditional sense, precursory events are less clearly delineated as 'events', but much like the Balkan Powder Keg which set the conditions for World War I as it escalated, many of the 'events' which set the conditions for the War on the Real could be considered as part of the war itself instead of merely contributing to it passively.</p>
-          <p>One of the most commonly accepted of these 'ideological dominoes' which ultimately fell to create the war traces back to the British children&rsquo;s book <em>The Velveteen Rabbit (or How Toys Become Real)</em>, written by Margery Williams and initially published in 1921. The story explores a stuffed rabbit&rsquo;s desire to become real through the love of its owner. In our context, readers started viewing the story with a sort of revisionism and found that it highlights the strangeness of reality. Some scholars argue that the loss of childhood many young adults now feel as a result of history "moving too quickly or otherwise too intensely" is what made this children&rsquo;s story particularly impactful (Henderson et al. 72). Regardless, the titular character has become a symbol for the war and for the strangeness of reality, and recently 'The Velveteen Rabbit' has been simplified to any image of a rabbit being granted this same significance. This paper does not seek to examine the beginnings of the war beyond this groundwork which introduces the importance of the story and the symbol.</p>
+          <p>One of the most commonly accepted of these 'ideological dominoes' which ultimately fell to create the war traces back to the British children&rsquo;s book <em>The Velveteen Rabbit (or How Toys Become Real)</em>, written by Margery Williams and initially published in 1921. The story explores a stuffed <span data-glitch-text>velveteen</span> rabbit&rsquo;s desire to become real through the love of its owner. In our context, readers started viewing the story with a sort of revisionism and found that it highlights the strangeness of reality. Some scholars argue that the loss of childhood many young adults now feel as a result of history "moving too quickly or otherwise too intensely" is what made this children&rsquo;s story particularly impactful (Henderson et al. 72). Regardless, the titular character has become a symbol for the war and for the strangeness of reality, and recently 'The Velveteen Rabbit' has been simplified to any image of a rabbit being granted this same significance. This paper does not seek to examine the beginnings of the war beyond this groundwork which introduces the importance of the story and the symbol.</p>
           <p>At a glance, this paper will examine several existing stories and possible alternative meanings for the rabbit, with the key belief being that <span data-glitch-text>any mention of a rabbit is somehow significant</span>. This paper will examine existing works of media across film, television, and print; digital worlds and video games (i.e. <em>The Last of Us</em>); and British storytelling with iconic characters and franchises (i.e. Wallace and Gromit) to explore a global outreach beyond the American bubble.</p>
           <p style="color:var(--muted);font-size:11px;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border)">SOURCE: circulated draft &nbsp;|&nbsp; CLASSIFICATION: external &nbsp;|&nbsp; INDEXED: manually</p>
         </div>
         <br/>
         <p style="color:#999999;font-size:11px;margin-top:1rem">Was wir wissen, ist ein Tropfen. Was wir nicht wissen, ist ein Ozean.</p>
+      </div>
+
+      <!-- FLOOD THEORY PAPER -->
+      <div id="pane-floodtheory" class="pane">
+        <div class="prompt">&gt; cat <span>flood_theory_paper.txt</span></div>
+        <div class="pane-title">flood_theory_paper.txt</div>
+        <div class="pane-meta">type: academic paper (excerpt, introduction) &nbsp;|&nbsp; author: Brooks et al. &nbsp;|&nbsp; status: published</div>
+        <div class="pane-body" style="max-width:680px;line-height:1.85">
+          <p style="color:var(--green);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem">The Flood Hypothesis: An Introduction and Exploration</p>
+          <p>The Flood Hypothesis (more commonly referred to as Flood Theory) is the belief that the Great Flood occurred - as outlined in nearly all major religions - but the world did not recover after it finished. The belief shares much of its DNA with the Simulation Hypothesis, as both hold reality to be false as an omnipresent deception.</p>
+          <p>Judaism and Christianity record the flood with the story of Noah&rsquo;s Ark in the Book of Genesis, while Islam notes it as Nuh&rsquo;s ark in the Quran. In Hinduism, Manu builds a massive boat and is saved by Vishnu. Greek mythology describes the flood of Deucalion. Aztec mythology recounts a great flood that destroyed the fourth sun. Additional examples exist, but are being omitted here for brevity. Every religion has its version of the same story, which believers think lends the theory additional credibility.</p>
+          <p>There is notable room for interpretation in the theory - most who subscribe to it believe that the flood has happened and everyone has already died as a result, but some believe that the flood is still yet to come to claim the lives of all sinners. 'God will never flood the Earth again' is held as an absolute truth, but has that Flood already happened or has it simply been written as a warning of what is yet to come?</p>
+          <p>Many religions also feature and circulate stories of prominent figures seeing into the future, whether as premonitions, reincarnations, divine ascents, prophetic visions, or otherwise. For example,</p>
+          <p><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b>
+            <b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b></p>
+          <p style="color:var(--muted);font-size:11px;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border)">SOURCE: circulated draft, bookmarked &nbsp;|&nbsp; CLASSIFICATION: external &nbsp;|&nbsp; INDEXED: manually</p>
+        </div>
+      </div>
+
+      <!-- PSALM -->
+      <div id="pane-psalm" class="pane">
+        <div class="prompt">&gt; cat <span>psalm.txt</span></div>
+        <div class="pane-title">psalm.txt</div>
+        <div class="pane-meta">type: religious text (excerpt) &nbsp;|&nbsp; author: David <b style="color:#4a9eff">&lt;blast&gt;</b>. &nbsp;|&nbsp; status: published</div>
+        <div class="pane-body" style="max-width:680px;line-height:1.85">
+          <p style="color:var(--green);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem">For the director of music. To the tune of “The Death of the Son.” A psalm of David.</p>
+          <p>My enemies turn back;<br/>
+            &emsp;they stumble and perish before you.<br/>
+            For you have upheld my right and my cause,<br/>
+            &emsp;sitting enthroned as the righteous judge.<br/>
+            You have rebuked the nations and destroyed the wicked;<br/>
+            &emsp;you have blotted out their name for ever and ever.<br/>
+            Endless ruin has overtaken my enemies,<br/>
+            &emsp;you have uprooted their cities;<br/>
+            &emsp;even the memory of them has perished.
+            <br/><br/><br/><br/><br/><br/><br/><br/>
+            Psalm <span data-glitch-text>??</span>: 3-6</p>
+          <p style="color:var(--muted);font-size:11px;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border)">SOURCE: NIV &nbsp;|&nbsp; CLASSIFICATION: external &nbsp;|&nbsp; INDEXED: manually</p>
+        </div>
       </div>
 
       <!-- TESTAMONIAL 1103-B: VOICE NOTE TRANSCRIPTION -->
@@ -1474,7 +1582,6 @@
           <p>Make me singular and I&rsquo;ll confirm in any field.</p>
           <p style="margin-top:1.5rem;color:var(--muted);font-style:italic">What am I?</p>
         </div>
-        <p style="color:var(--muted);font-size:11px;max-width:560px">No author. No date. No answer written down &mdash; at least not on this copy.</p>
       </div>
 
       <!-- OOO CALENDAR -->
@@ -1714,6 +1821,29 @@
           It&rsquo;s not a loop, it&rsquo;s a spiral.</p>
       </div>
 
+      <!-- HOW MANY PEOPLE -->
+      <div id="pane-people" class="pane">
+        <div class="prompt">&gt; cat <span>how_many_people.eml</span></div>
+        <div class="pane-title">how_many_people.eml</div>
+        <div class="pane-meta">filetype: message/email &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+
+        <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p1962406</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">TO:</span> <span style="color:var(--text)">p2691296</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">DATE:</span> <span style="color:var(--text)"><b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
+          <div style="color:var(--muted);margin-bottom:0"><span style="display:inline-block;min-width:80px">SUBJECT:</span> <span style="color:var(--amber)">How Many People Are Here These Days?</span></div>
+        </div>
+
+        <div class="pane-body" style="max-width:680px;font-size:12px">
+          <p>Hey Jacelyn,</p>
+          <p>	How many people do we currently employ? Adam once told me how many we had at our height but I need to know how many we have right now.</p>
+          <p>	There&rsquo;s a lot of <span data-glitch-text>steps</span> to this, but I think it&rsquo;ll really <span data-glitch-text>floor</span> you. I&rsquo;m breaking people into groups and am ideally aiming for the magic double digit, so whatever the number is can you just <span data-glitch-text>mod it by 10</span> and let me know what the result is? I&rsquo;m just trying to get the full <span data-glitch-text>picture</span>.</p>
+          <p>You can probably guess what all this is ultimately for, but if you&rsquo;re drawing a blank you&rsquo;ll see soon enough. I really think you are going to absolutely love it.</p>
+          <p style="margin-top:1.5rem">You&rsquo;re the best,<br/><span style="color:var(--muted)">Doug</span></p>
+          <div class="pane-meta" style="margin-top:2rem">SOURCE: recovered correspondence &nbsp;|&nbsp; CLASSIFICATION: internal</div>
+        </div>
+      </div>
+
       <!-- COLOR ANALYSIS -->
       <div id="pane-coloranalysis" class="pane">
         <div class="prompt">&gt; cat <span>color_analysis.eml</span></div>
@@ -1828,6 +1958,29 @@
             <div class="lc-desc">Found in history, last visited shortly after it was published. Visited four times.</div>
           </div>
         </a>
+        <br/>
+        <p style="color:#999999;font-size:11px;margin-top:1rem">Le problème, c'est la routine<br/>
+          Quand les jours se ressemblent<br/>
+          C&rsquo; qui m&rsquo; tue c&rsquo;est l&rsquo;ennui<br/>
+          Est-ce qu&rsquo;on finira ensemble</p>
+      </div>
+
+      <!-- LINK: Space Article -->
+      <div id="pane-link6" class="pane">
+        <div class="prompt">&gt; open <span>space.html</span></div>
+        <div class="pane-title">space.html</div>
+        <div class="pane-meta">type: external reference document &nbsp;|&nbsp; trust: negative</div>
+        <a class="link-card" href="https://www.space.com/science/astrophysics/the-physics-of-the-universe-appear-to-be-fine-tuned-for-life-why" target="_blank" rel="noopener">
+          <span class="lc-icon">🔗</span>
+          <div class="lc-body">
+            <div class="lc-title">The Physics of the Universe Appear To Be Fine-Tuned For Life - Why?</div>
+            <div class="lc-url">space.com</div>
+            <div class="lc-desc">Ponder a bit, think big and dream bigger. This can be affirmations, this can be philosophy, but either way it is truly fascinating.</div>
+          </div>
+        </a>
+        <br/>
+        <p style="color:#999999;font-size:11px;margin-top:1rem">An idea is like a virus, resilient, highly contagious.<br/>
+          The smallest seed of an idea can grow. It can grow to define or destroy you.</p>
       </div>
 
       <!-- THERAPY TRANSCRIPT -->
@@ -2068,7 +2221,7 @@
       <div id="pane-err" class="pane">
         <div class="prompt">&gt; cat <span>err.bin</span></div>
         <div class="pane-title">err.bin</div>
-        <div class="pane-meta">filetype: binary/unknown &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; origin: unknown &nbsp;|&nbsp; recovered: corrupted</div>
+        <div class="pane-meta">filetype: binary/unknown</span> &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; origin: <span data-glitch-text>g8</span> &nbsp;|&nbsp; recovered: corrupted</div>
         <pre style="color:var(--green-dim);font-size:12px;line-height:1.5;font-family:var(--font);letter-spacing:0em;user-select:text">
 213097123091273123987219837189371289371238912738912371846172962547659786812329837465987257386236598721234
 712836197267854141289746192741231238901649185461289446590549821642056508320323984723498765980690280377758
@@ -2099,7 +2252,8 @@
 620521891824743819041602986512508912658912008423598236598765478465928347823469782346982346892364972839384
 
         </pre>
-        <p style="color:var(--muted);font-size:11px;margin-top:1rem">file appears corrupted, but maybe it&rsquo;s just scrambled in need of a key?</p>
+        <p style="color:var(--muted);font-size:11px;margin-top:1rem">ERRerrERRerrERRerrERRerrERRerrERRerrERRerr<br/>
+          <b style="color:#4a9eff">&lt;blast&gt;</b></span><b style="color:#4a9eff">&lt;blast&gt;</b></span><b style="color:#4a9eff">&lt;blast&gt;</b></span><b style="color:#4a9eff">&lt;blast&gt;</b></span><b style="color:#4a9eff">&lt;blast&gt;</b></span></p>
       </div>
 
       <!-- MISSING PERSONS REPORT -->
