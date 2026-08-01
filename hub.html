@@ -516,7 +516,7 @@
           <span class="icon">📄</span>
           <span class="fname">rabbit_motif_paper.txt</span>
         </div>
-        <div class="tree-item" data-pane="pane-corp-email">
+        <div class="tree-item" data-pane="pane-mod-email">
           <span class="icon">📄</span>
           <span class="fname">mod_inquiry.eml</span>
         </div>
@@ -556,13 +556,13 @@
 
       <div class="tree-folder-locked" data-folder="p19648012">p19648012</div>
       <div class="folder-children" id="folder-p19648012">
-        <div class="tree-item" data-pane="pane-readmealso">
-          <span class="icon">📄</span>
-          <span class="fname">READMEALSO.txt</span>
-        </div>
         <div class="tree-item" data-pane="pane-velveteen">
           <span class="icon">📄</span>
           <span class="fname">VELVETEEN.personnel</span>
+        </div>
+        <div class="tree-item" data-pane="pane-readmealso">
+          <span class="icon">📄</span>
+          <span class="fname">READMEALSO.txt</span>
         </div>
         <div class="tree-item" data-pane="pane-link1">
           <span class="icon">🔗</span>
@@ -584,10 +584,6 @@
           <span class="icon">📄</span>
           <span class="fname">ghost_transcript.txt</span>
         </div>
-        <div class="tree-item" data-pane="pane-musings-II">
-          <span class="icon">📄</span>
-          <span class="fname">whoami.eml</span>
-        </div>
         <div class="tree-item" data-pane="pane-water">
           <span class="icon">&#128196;</span>
           <span class="fname">water_outage_notice.eml</span>
@@ -595,6 +591,10 @@
         <div class="tree-item" data-pane="pane-err">
           <span class="icon">📄</span>
           <span class="fname">err.bin</span>
+        </div>
+        <div class="tree-item" data-pane="pane-musings-II">
+          <span class="icon">📄</span>
+          <span class="fname">whoami.eml</span>
         </div>
       </div>
 
@@ -695,7 +695,7 @@
     <!-- ══ CONTENT PANEL ══ -->
     <div id="content">
 
-      <!-- EMAIL -->
+      <!-- ALT SCENARIO EMAIL -->
       <div id="pane-email" class="pane">
         <div class="prompt">&gt; cat <span>alt_scenario_draft.eml</span></div>
         <div class="pane-title">alt_scenario_draft.eml</div>
@@ -706,7 +706,6 @@
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">TO:</span> <span style="color:var(--text)"><b style="color:#4a9eff">&lt;blast&gt;</b> &lt;<b style="color:#4a9eff">&lt;2706549&gt;</b>&gt;</span></div>
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">DATE:</span> <span style="color:var(--text)"><b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">SUBJECT:</span> <span style="color:var(--amber)">thought experiment (do not forward)</span></div>
-          <div style="color:var(--muted);margin-bottom:0"><span style="display:inline-block;min-width:80px">CC:</span> <span style="color:var(--text)">—</span></div>
         </div>
 
         <div class="pane-body" style="max-width:680px;font-size:12px">
@@ -795,7 +794,7 @@
       <div id="pane-chess" class="pane">
         <div class="prompt">&gt; open <span>board_state_final.fen</span></div>
         <div class="pane-title">board_state_final.fen</div>
-        <div class="pane-meta">FEN: 6k1/4q2R/7p/3Q4/8/8/8/4R1K1 w - - 0 1 &nbsp;|&nbsp; annotated by: unknown</div>
+        <div class="pane-meta">FEN: 6k1/4q2R/7p/3Q4/8/8/8/4R1K1 w - - 0 1 &nbsp;|&nbsp; annotated by: unknown &nbsp;|&nbsp; related files: sacrifice.html</div>
         <div id="board"></div>
         <div class="board-note">
           Analysis: This is a classic example of a Darnley Endgame. The king is cornered, the rooks seal his every exit and the pawn on h6 provides support for the coup.<br/><br/>
@@ -818,7 +817,7 @@
       <div id="pane-menu" class="pane">
         <div class="prompt">&gt; open <span>à_demain_menu.png</span></div>
         <div class="pane-title">à_demain_menu.png</div>
-        <div class="pane-meta">filetype: image/png &nbsp;|&nbsp; rendered as: text fallback &nbsp;|&nbsp; location: [REDACTED], Paris 11e</div>
+        <div class="pane-meta">filetype: image/png &nbsp;|&nbsp; rendered as: text fallback &nbsp;|&nbsp; location: [REDACTED], Paris 9e &nbsp;|&nbsp; related files: rabbit_motif_paper.txt</div>
         <div class="menu-frame">
           <h2>À Demain</h2>
           <div class="subtitle">Brasserie · Depuis 1987</div>
@@ -890,6 +889,7 @@
       <!-- README2 -->
       <div id="pane-readmealso" class="pane">
         <div class="prompt">&gt; cat <span>READMEALSO.txt</span></div>
+        <div class="warn">⚠ WARNING: THIS FILE IS NOT INITIALLY PART OF THIS DIRECTORY.</div>
         <div class="pane-body">
           <p>It&rsquo;s me again, nice job getting into the second folder.</p>
           <p>I said earlier that a lot of this place was never meant to be saved, but I&rsquo;m starting to think I was wrong. This whole place feels off somehow, but I can&rsquo;t exactly pinpoint how or why. A lot of these files should be more corrupted than they are, and a lot of the corruption that is here feels almost purposeful.</p>
@@ -902,6 +902,7 @@
       <!-- GATE HINT -->
       <div id="pane-locksmith" class="pane">
         <div class="prompt">&gt; cat <span>locksmith.txt</span></div>
+        <div class="pane-meta">filetype: unknown &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: external, foreign &nbsp;|&nbsp; related files: err.bin &nbsp;|&nbsp; <span style="color:var(--amber)">related folder: p1030272</span></div>
         <div class="pane-body">
           <p style="color:#0000ff;font-size:11px;margin-top:1rem">When you arrive at the gate, be sure you have the key.<br/><br/>
             You must find its hole - be methodical, not hasty.<br/><br/>
@@ -988,11 +989,11 @@
         </a>
       </div>
 
-      <!-- CORP EMAIL -->
-      <div id="pane-corp-email" class="pane">
+      <!-- MOD EMAIL -->
+      <div id="pane-mod-email" class="pane">
         <div class="prompt">&gt; cat <span>mod_inquiry.eml</span></div>
         <div class="pane-title">mod_inquiry.eml</div>
-        <div class="pane-meta">filetype: 2706549/message &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+        <div class="pane-meta">filetype: 2706549/message &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal &nbsp;|&nbsp; related files: prosthetic_options.txt, how_many_people.eml</div>
 
         <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p2242264</span></div>
@@ -1016,7 +1017,7 @@
       <div id="pane-musings-II" class="pane">
         <div class="prompt">&gt; cat <span>whoami.eml</span></div>
         <div class="pane-title">whoami.eml</div>
-        <div class="pane-meta">filetype: 2706549/message &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+        <div class="pane-meta">filetype: 2706549/message &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal &nbsp;|&nbsp; <span style="color:var(--amber)">related folder: p2691296</span></div>
 
         <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p2242264</span></div>
@@ -1083,7 +1084,7 @@
       <div id="pane-rogers" class="pane">
         <div class="prompt">&gt; open <span>ROGERS.personnel</span></div>
         <div class="pane-title">ROGERS.personnel</div>
-        <div class="pane-meta">PERSONNEL FILE — Erin &nbsp;|&nbsp; clearance: Level 3 &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="pane-meta">PERSONNEL FILE — Erin &nbsp;|&nbsp; clearance: Level 3 &nbsp;|&nbsp; status: CLOSED &nbsp;|&nbsp; related files: à_demain_menu.png</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Erin Stevens</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>2706549</span></div>
@@ -1105,7 +1106,7 @@
       <div id="pane-velveteen" class="pane">
         <div class="prompt">&gt; open <span>VELVETEEN.personnel</span></div>
         <div class="pane-title">VELVETEEN.personnel</div>
-        <div class="pane-meta">PERSONNEL FILE — Reynolds &nbsp;|&nbsp; clearance: Level 4 (revoked) &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="pane-meta">PERSONNEL FILE — Reynolds &nbsp;|&nbsp; clearance: Level 4 (revoked) &nbsp;|&nbsp; status: CLOSED &nbsp;|&nbsp; related files: velveteen.html</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Jordan Reynolds</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>19648012</span></div>
@@ -1118,7 +1119,7 @@
             <p>&gt; First hire to the project, went on to choose the name of the environment himself.</p>
             <p>&gt; Raised concerns internally about the scope of data collection. Concerns were logged and dismissed.</p>
             <p>&gt; Uniquely favored by the old guard but despised by the False Idol. No formal exit interview on file.</p>
-            <p>&gt; Related files: velveteen.html — his favorite story, which also happens to have driven half the world insane. He swears he loves it for different rerasons.</p>
+            <p>&gt; Related files: velveteen.html — his favorite story, which also happens to have driven half the world insane. He swears he loves it for different reasons.</p>
           </div>
           <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:10px;letter-spacing:0.08em">FILE LAST ACCESSED: [REDACTED] — STATUS: CLOSED</div>
         </div>
@@ -1127,7 +1128,7 @@
       <div id="pane-moover" class="pane">
         <div class="prompt">&gt; open <span>MOOVER.personnel</span></div>
         <div class="pane-title">MOOVER.personnel</div>
-        <div class="pane-meta">PERSONNEL FILE — Jacelyn &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="pane-meta">PERSONNEL FILE — Jacelyn &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED &nbsp;|&nbsp; related files: board_state_final.fen</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Jacelyn Seaver</span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>2691296</span></div>
@@ -1149,7 +1150,7 @@
       <div id="pane-elohim" class="pane">
         <div class="prompt">&gt; open <span>ELOHIM.personnel</span></div>
         <div class="pane-title">ELOHIM.personnel</div>
-        <div class="pane-meta">PERSONNEL FILE — Adam &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED</div>
+        <div class="pane-meta">PERSONNEL FILE — Adam &nbsp;|&nbsp; clearance: Level 5 &nbsp;|&nbsp; status: CLOSED &nbsp;|&nbsp; related files: missing_persons_report.txt</div>
         <div class="doc" style="border:1px solid var(--border);padding:1.5rem;max-width:600px;line-height:1.85">
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">Full Name:</span> <span>Adam <b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
           <div class="doc-field"><span style="color:var(--muted);display:inline-block;min-width:140px">PID:</span> <span>1030272</span></div>
@@ -1339,7 +1340,7 @@
       <div id="pane-query" class="pane">
         <div class="prompt">&gt; cat <span>query.txt</span></div>
         <div class="pane-title">query.txt</div>
-        <div class="pane-meta">author: shep_admin &nbsp;|&nbsp; last modified: [REDACTED] &nbsp;|&nbsp; encoding: UTF-8</div>
+        <div class="pane-meta">author: shep_admin &nbsp;|&nbsp; last modified: [REDACTED] &nbsp;|&nbsp; encoding: UTF-8 &nbsp;|&nbsp; related files: ROGERS.personnel, portrait.txt</div>
         <div class="pane-body">
           <!-- <p>You may not need it, but as far as I&rsquo;ve gathered there are certain files which seem uniquely corrupted. Maybe the path forward can be found in the intersections between them?</p> -->
           <p style="color: var(--amber)"><em style="color:var(--amber)">ALERT: </em>11 of the 13 tasks running in parallel completed successfully and without significant errors. The remaining 2 tasks require your immediate oversight and attention.</p>
@@ -1358,7 +1359,7 @@
       <div id="pane-portrait" class="pane">
         <div class="prompt">&gt; cat <span>portrait.txt</span></div>
         <div class="pane-title">portrait.txt</div>
-        <div class="pane-meta">filetype: errerr &nbsp;|&nbsp; author: errerr &nbsp;|&nbsp; origin: errerr &nbsp;|&nbsp; recovered: errerr</div>
+        <div class="pane-meta">filetype: errerr &nbsp;|&nbsp; author: errerr &nbsp;|&nbsp; origin: errerr &nbsp;|&nbsp; recovered: errerr &nbsp;|&nbsp; related files: query.txt</div>
         <pre style="color:var(--green-dim);font-size:12px;line-height:1.5;font-family:var(--font);letter-spacing:0em;user-select:text">
             ##################################################*****##+#%%%%%%%%%###############***+++=====+=++++
             #######################################%##*******###%%%%%%%%%%###*******************+====++**++*****
@@ -1448,7 +1449,7 @@
         <div class="pane-title">breadcrumbs.txt</div>
         <div class="pane-meta">author: shep_admin &nbsp;|&nbsp; last modified: [REDACTED] &nbsp;|&nbsp; encoding: unknown, suspected <span data-glitch-text>A1Z26</span></div>
         <div class="pane-body">
-          <p>You may not need it, but as far as I&rsquo;ve gathered there are certain files which seem uniquely corrupted. Maybe the path forward can be found in the intersections between them?</p>
+          <p>You may not need it, but as far as I&rsquo;ve gathered there are certain files which seem uniquely corrupted. Maybe the path forward can be found in the intersections between them? Learn the characters and find the order.</p>
           <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 2; color: var(--text);">
             <li style="color: var(--muted)">how_many_people.eml</li>
             <li style="color: var(--muted)">mod_inquiry.eml</li>
@@ -1457,7 +1458,7 @@
             <li style="color: var(--muted)">missing_persons_report.txt</li>
             <li style="color: var(--muted)">à_demain_menu.png</li>
             <li style="color: var(--muted)">psalm.txt</li>
-            <li style="color: var(--muted)">[file 41]</li>
+            <li style="color: var(--muted)">query.txt</li>
           </ul>
           <p style="color:var(--muted);font-size:11px;margin-top:2rem">[end of file]</p>
         </div>
@@ -1499,7 +1500,7 @@
       <div id="pane-rabbit" class="pane">
         <div class="prompt">&gt; cat <span>rabbit_motif_paper.txt</span></div>
         <div class="pane-title">rabbit_motif_paper.txt</div>
-        <div class="pane-meta">type: academic paper (excerpt, introduction) &nbsp;|&nbsp; author: Ryan et al. &nbsp;|&nbsp; status: published</div>
+        <div class="pane-meta">type: academic paper (excerpt, introduction) &nbsp;|&nbsp; author: Ryan et al. &nbsp;|&nbsp; status: published &nbsp;|&nbsp; <span style="color:var(--amber)">related folder: p19648012</span></div>
         <div class="pane-body" style="max-width:680px;line-height:1.85">
           <p style="color:var(--green);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem">Examining 'The Rabbit' as a Modern Motif</p>
           <p>In examining the idea of significance in a narrative text, there exists a concept known as a motif — a recurring element which holds unique additional significance beyond which is explicitly stated. This exists in all forms of storytelling: leitmotifs in music as fragments of melodies and rhythms, recurring imagery or structural elements in literature, visual cues in film, etc. These are images, sounds, words, patterns, themes, or otherwise which enhance understanding and depth of the initial text.</p>
@@ -1683,7 +1684,7 @@
       <div id="pane-war" class="pane">
         <div class="prompt">&gt; cat <span>musings.txt</span></div>
         <div class="pane-title">musings.txt</div>
-        <div class="pane-meta">filetype: text/plain &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; recovered: fragment &nbsp;|&nbsp; context: none</div>
+        <div class="pane-meta">filetype: text/plain &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; recovered: fragment &nbsp;|&nbsp; context: none &nbsp;|&nbsp; <span style="color:var(--amber)">related folder: p2706549</span></div>
         <div style="max-width:520px;border:1px solid var(--border);padding:1.5rem 1.75rem;font-size:13px;line-height:2.1;margin-bottom:1.5rem;background:#050805">
           <p style="color:var(--muted);font-size:10px;letter-spacing:0.12em;margin-bottom:1.5rem">&mdash; found folded inside the back cover of a copy of <em style="color:var(--text)">The Velveteen Rabbit</em>, origin unknown &mdash;</p>
           <p>In my neighborhood I educate children with flair,</p>
@@ -1878,7 +1879,7 @@
       <div id="pane-cleanout" class="pane">
         <div class="prompt">&gt; cat <span>clean_your_computer_day.eml</span></div>
         <div class="pane-title">clean_your_computer_day.eml</div>
-        <div class="pane-meta">filetype: message/email &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+        <div class="pane-meta">filetype: message/email &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal &nbsp;|&nbsp; related files: ooo_february.cal</div>
 
         <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p2310224</span></div>
@@ -1888,7 +1889,7 @@
         </div>
 
         <div class="pane-body" style="max-width:680px;font-size:12px">
-          <p>Hi team,</p>
+          <p>Hi Team,</p>
           <p>A quick reminder that National Clean Out Your Computer Day is coming up. As in previous years, all employees are expected to dedicate at least one hour <span data-glitch-text>on the day</span> to clearing up storage space and ensuring that all devices meet current security standards.</p>
           <p>This means:</p>
           <ul style="margin: 0.5rem 0 1rem 1.5rem; line-height: 2;">
@@ -1935,7 +1936,7 @@
       <div id="pane-people" class="pane">
         <div class="prompt">&gt; cat <span>how_many_people.eml</span></div>
         <div class="pane-title">how_many_people.eml</div>
-        <div class="pane-meta">filetype: message/email &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+        <div class="pane-meta">filetype: message/email &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal &nbsp;|&nbsp; related files: relativity.png</div>
 
         <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
           <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p1962406</span></div>
@@ -1991,7 +1992,7 @@
       <div id="pane-meeting" class="pane">
         <div class="prompt">&gt; cat <span>meeting_transcript_01.txt</span></div>
         <div class="pane-title">meeting_transcript_01.txt</div>
-        <div class="pane-meta">type: meeting transcript &nbsp;|&nbsp; participants: p1124606, p2691296 &nbsp;|&nbsp; date: [REDACTED] &nbsp;|&nbsp; transcribed: automatically &nbsp;|&nbsp; recovered: fragment &nbsp;|&nbsp; verified: no</div>
+        <div class="pane-meta">type: meeting transcript &nbsp;|&nbsp; participants: p1124606, p2691296 &nbsp;|&nbsp; date: [REDACTED] &nbsp;|&nbsp; recovered: fragment &nbsp;|&nbsp; verified: no</div>
         <div class="pane-body" style="max-width:680px;font-size:12px;line-height:1.9">
 
           <p style="color:var(--muted);font-size:11px;margin-bottom:1.5rem">Transcription of a meeting from <span><b style="color:#4a9eff">&lt;blast&gt;</b></span></p>
@@ -2199,7 +2200,7 @@
       <div id="pane-ghosts" class="pane">
         <div class="prompt">&gt; cat <span>ghost_transcript.txt</span></div>
         <div class="pane-title">ghost_transcript.txt</div>
-        <div class="pane-meta">type: meeting transcript &nbsp;|&nbsp; participants: p1124606, p2706549, p1663421 &nbsp;|&nbsp; date: [REDACTED] &nbsp;|&nbsp; transcribed: automatically &nbsp;|&nbsp; recovered: fragment &nbsp;|&nbsp; verified: no</div>
+        <div class="pane-meta">type: meeting transcript &nbsp;|&nbsp; participants: p1124606, p2706549, p1663421 &nbsp;|&nbsp; date: [REDACTED] &nbsp;|&nbsp; recovered: fragment &nbsp;|&nbsp; verified: no</div>
         <div class="pane-body" style="max-width:680px;font-size:12px;line-height:1.9">
 
           <p style="color:var(--muted);font-size:11px;margin-bottom:1.5rem">Transcription of a meeting from <b style="color:#4a9eff">&lt;blast&gt;</b></p>
@@ -2357,7 +2358,7 @@
       <div id="pane-err" class="pane">
         <div class="prompt">&gt; cat <span>err.bin</span></div>
         <div class="pane-title">err.bin</div>
-        <div class="pane-meta">filetype: binary/unknown</span> &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; origin: <span data-glitch-text>g8</span> &nbsp;|&nbsp; recovered: corrupted</div>
+        <div class="pane-meta">filetype: binary/unknown</span> &nbsp;|&nbsp; author: unknown &nbsp;|&nbsp; origin: <span style="color:var(--amber)">g8</span> &nbsp;|&nbsp; recovered: corrupted &nbsp;|&nbsp; related files: board_state_final.fen</div>
         <pre style="color:var(--green-dim);font-size:12px;line-height:1.5;font-family:var(--font);letter-spacing:0em;user-select:text">
 213097123091273123987219837189371289371238912738912371846172962547659786812329837465987257386236598721234
 712836197267854141289746192741231238901649185461289446590549821642056508320323984723498765980690280377758
@@ -2396,7 +2397,7 @@
       <div id="pane-fieldnotes" class="pane">
         <div class="prompt">&gt; cat <span>missing_persons_report.txt</span></div>
         <div class="pane-title">missing_persons_report.txt</div>
-        <div class="pane-meta">type: field notes (fragment) &nbsp;|&nbsp; author: BPD &nbsp;|&nbsp; recovered: partial</div>
+        <div class="pane-meta">type: field notes (fragment) &nbsp;|&nbsp; author: BPD &nbsp;|&nbsp; recovered: partial &nbsp;|&nbsp; related folder: p1030272</div>
         <div class="pane-body" style="max-width:680px;line-height:1.85">
           <p style="color:var(--green);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem">Missing Persons Report</p>
           <div style="border:1px solid var(--border);padding:1.25rem 1.5rem;max-width:620px;font-size:12px;line-height:1.7;margin-bottom:1.5rem">
@@ -2415,7 +2416,7 @@
             <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:160px">LAST KNOWN ADDRESS:</span> <span>21 S. Eutaw St.</span></div>
             <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:160px">OCCUPATION:</span> <span>CEO, Software Company</span></div>
             <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:160px">PHYSICAL DESC.:</span> <span><span id="mp-height"></span>, <span id="mp-weight"></span>, <span id="mp-hair"></span>, <span id="mp-eyes"></span></span></div>
-            <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:160px">IDENTIFYING MARKS:</span> <span>Slight bulge on right side of torso from being born with <span data-glitch-text>additional rib</span></span></div>
+            <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:160px">IDENTIFYING MARKS:</span> <span>Slight bulge on right side of torso from being born with <span data-glitch-text>additional rib</span>, giving him a total of <b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
 
             <p style="color:var(--green);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin:1.5rem 0 1rem">Circumstances of Disappearance</p>
             <p>1030272 was last seen on April 7 at approximately 7:52pm near clocktower at 21 South Eutaw Street. Phone location found by <b style="color:#4a9eff">&lt;blast&gt;</b></p>
