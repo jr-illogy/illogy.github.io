@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Illogy</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07070d;
+      --text: #dddde8;
+      --muted: #55556a;
+      --accent: #c8b8ff;
+      --accent2: #7fffd4;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+    }
+
+    /* ── INTRO ── */
+    #intro {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      background: var(--bg);
+      transition: opacity 0.8s ease;
+    }
+    #intro.fade-out { opacity: 0; pointer-events: none; }
+
+    #page-text {
+      position: absolute;
+      width: min(680px, 88vw);
+      font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+      line-height: 2;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      white-space: pre-wrap;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    #typed-cursor {
+      display: inline-block;
+      width: 2px; height: 1.1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    #ellipse-wrap {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.08);
+      opacity: 0;
+      transition: transform 1.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease;
+      pointer-events: none;
+    }
+    #ellipse-wrap.visible { opacity: 1; }
+    #ellipse-wrap.zoom { transform: translate(-50%, -50%) scale(1); }
+
+    #ellipse-svg ellipse {
+      stroke: var(--accent);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      transition: stroke-dashoffset 1.2s ease, opacity 0.7s ease;
+    }
+    #ellipse-svg ellipse.draw { stroke-dashoffset: 0; }
+
+    #logo-img {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    #logo-img.show { opacity: 1; }
+
+    #logo-fallback {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 2.6rem; font-weight: 200; letter-spacing: 0.22em;
+      color: var(--accent); opacity: 0;
+      transition: opacity 0.8s ease;
+      white-space: nowrap; text-transform: uppercase;
+    }
+
+    /* ── MAIN ── */
+    #main {
+      position: fixed; inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease 0.3s;
+      pointer-events: none;
+    }
+    #main.show { opacity: 1; pointer-events: all; }
+
+    #logo-settled {
+      position: absolute;
+      top: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    #logo-settled.show { opacity: 1; }
+
+    #grid-canvas {
+      position: absolute; inset: 0;
+      opacity: 0.06;
+    }
+
+    .float-word {
+      position: absolute;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.6s ease, color 0.3s, letter-spacing 0.3s;
+      text-shadow: 0 0 18px rgba(200,184,255,0.25);
+    }
+    .float-word.show { opacity: 1; }
+    .float-word:hover {
+      color: #fff;
+      letter-spacing: 0.28em;
+      text-shadow: 0 0 28px rgba(200,184,255,0.6);
+    }
+
+    /* ── MODAL ── */
+    #modal-bg {
+      position: fixed; inset: 0;
+      background: rgba(7,7,13,0.88);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 100;
+    }
+    #modal-bg.open { opacity: 1; pointer-events: all; }
+
+    #modal {
+      background: #0e0e1a;
+      border: 1px solid #2a2a40;
+      border-radius: 4px;
+      padding: 3rem 3.5rem;
+      max-width: 560px;
+      width: 90vw;
+      transform: translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
+    }
+    #modal-bg.open #modal { transform: translateY(0); }
+
+    #modal-close {
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      background: none; border: none;
+      color: var(--muted); font-size: 1.4rem;
+      cursor: pointer; line-height: 1;
+      transition: color 0.2s;
+    }
+    #modal-close:hover { color: var(--text); }
+
+    #modal-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+      color: var(--accent);
+    }
+    #modal-subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+    }
+    #modal-body {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      color: #a0a0b8;
+      margin-bottom: 2rem;
+    }
+    #modal-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.65rem 1.6rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+    }
+    .btn-primary:hover { background: var(--accent); color: #07070d; }
+
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.65rem 1.6rem;
+      border: 1px solid #2a2a40;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: default;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ INTRO ══ -->
+<div id="intro">
+  <div id="page-text"><span id="typed"></span><span id="typed-cursor"></span></div>
+  <div id="ellipse-wrap">
+    <svg id="ellipse-svg" width="320" height="200" viewBox="0 0 320 200">
+      <ellipse cx="160" cy="100" rx="155" ry="94"/>
+    </svg>
+    <img id="logo-img" src="ref/illogy-logo.png" alt="Illogy"
+         onerror="this.style.display='none'; document.getElementById('logo-fallback').style.opacity=1"/>
+    <div id="logo-fallback">Illogy</div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+  <canvas id="grid-canvas"></canvas>
+  <img id="logo-settled" src="ref/illogy-logo.png" alt="Illogy"
+       onerror="this.style.display='none'" style="cursor:pointer"/>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="modal-bg">
+  <div id="modal">
+    <button id="modal-close" aria-label="Close">×</button>
+    <div id="modal-title"></div>
+    <div id="modal-subtitle"></div>
+    <div id="modal-body"></div>
+    <div id="modal-actions"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+
+  /* ── WORD + MODAL DATA ── */
+  const WORDS = [
+    {
+      label: 'Splitting the Binary',
+      size: 'clamp(1.1rem, 2.4vw, 1.5rem)',
+      weight: '400',
+      modal: {
+        title: 'Splitting the Binary',
+        subtitle: 'A Cerebral Science Fiction Novel',
+        body: `A man walks into an unfamiliar library. He knows the sole person who works there, and he has practically all his life. In the shelves lie the books and stories that uncannily tell his own. Reading between the lines of the pages, he begins to question if this personal museum he finds himself walking within is real or is some sort of purgatory. Why does his friend from the checkout counter always seem to know more about this place and about him than he does? What is he meant to find here? And if his story somehow lies within these walls, what will happen to him when he tries to leave?\n\nReynolds is a jaded developer in the driver's seat on something big, a project that will change the very nature of how intelligence is perceived. As his project enters the final stages of production, though, his team begins to fear that the project is more powerful than the world is ready for. A power vacuum emerges and Reynolds finds himself caught in the crossfire of a world on the brink of war, a project that may be its apocalyptic catalyst, and the looming feeling that he is connected to his work in far more ways than he knows.\n\nBoth men live separate lives in different times, yet they are joined in their search to answer the same key question: what does it mean to be real?`,
+        actions: [
+          { label: 'Interactive Epilogue', href: 'epilogue.html', style: 'primary' },
+          { label: 'Buy the Book', href: null, style: 'ghost' },
+        ]
+      }
+    },
+    {
+      label: 'Who We Are',
+      modal: {
+        title: 'Who We Are',
+        subtitle: 'An Introduction to Illogy Ltd.',
+        body: `Illogy is a small creative studio sitting at the intersection of literature and interactive experience.\n\nWe are obsessed with stories in all forms and admire the differences and intersections between them. We believe stories don't have to stay on the page and games don't have to stay on the screen. Our work blurs those lines deliberately, building worlds that reward curiosity and resist easy answers.\n\nFounded by writers, developers, and people who couldn't decide which one to be, Illogy Ltd. is a storytelling studio chasing fun and thought-provoking experiences which stay with you long after completion.`,
+        actions: []
+      }
+    },
+    {
+      label: 'The Story Goes On',
+      modal: {
+        title: 'The Story Goes On',
+        subtitle: 'What comes next',
+        body: `Splitting the Binary is the studio's first release, but in step with the studio's tagline: the story goes on.\n\nMore stories are in development, and more interactive experiences are being incubated. We're just getting started.\n\nSign up to be notified with news of the next episode.`,
+        actions: [
+          { label: 'Notify Me', href: null, style: 'ghost' },
+        ]
+      }
+    },
+    {
+      label: 'Mission Statement',
+      modal: {
+        title: 'Mission Statement',
+        subtitle: 'What makes us unique',
+        body: `Charlie Chaplin said in his film The Great Dictator (1940) "We think too much and feel too little," but as we approach a century later we over-prioritize feeling to thinking. We believe stories should do both: force us to think while allowing us to feel.\n\nOur stories reward careful analysis and investment, where leaning in means learning more. We believe in experimentation and in pushing creative boundaries to make experiences truly and uniquely memorable.\n\nThrough the power of storytelling, we believe we can convince people to spend more time thinking as a first step toward inspiring a world without enough hope to dream again.`,
+        actions: []
+      }
+    },
+    // {
+    //   label: 'What Is Real?',
+    //   modal: {
+    //     title: 'What Is Real?',
+    //     subtitle: 'The question at the centre of everything',
+    //     body: `It's the oldest question in philosophy and the newest one in computer science.\n\nIllogy doesn't claim to answer it. We just think it's worth sitting with — in a story, in a game, in the uncomfortable space between the two.\n\nEvery project we make is, in some way, an attempt to make that question feel personal again.`,
+    //     actions: []
+    //   }
+    // },
+  ];
+
+  /* ── TYPEWRITER ── */
+  const lines = [
+    "Was the library a 'calming space' or was it 'untamed wilds'?",
+    "",
+    "The images were at odds with each other, but maybe they were",
+    "opposite sides of the same coin.",
+    "",
+    "Perhaps this place was both — equal parts calming and",
+    "intimidating,",
+    "",
+    "if such a thing were even possible...",
+  ];
+
+  const typedEl = document.getElementById('typed');
+  let charIdx = 0, lineIdx = 0, fullText = '';
+
+  function typeNext() {
+    if (lineIdx >= lines.length) { startZoom(); return; }
+    const line = lines[lineIdx];
+    if (charIdx < line.length) {
+      fullText += line[charIdx++];
+      typedEl.textContent = fullText;
+      setTimeout(typeNext, 38 + Math.random() * 28);
+    } else {
+      fullText += '\n';
+      typedEl.textContent = fullText;
+      lineIdx++; charIdx = 0;
+      setTimeout(typeNext, lineIdx === lines.length ? 600 : 220);
+    }
+  }
+  setTimeout(typeNext, 700);
+
+  /* ── ZOOM INTO ELLIPSE ── */
+  function startZoom() {
+    const wrap = document.getElementById('ellipse-wrap');
+    const ellipse = document.querySelector('#ellipse-svg ellipse');
+    const pageText = document.getElementById('page-text');
+
+    pageText.style.transition = 'opacity 0.8s ease';
+    pageText.style.opacity = '0';
+
+    setTimeout(() => {
+      wrap.classList.add('visible');
+      ellipse.classList.add('draw');
+      setTimeout(() => {
+        wrap.classList.add('zoom');
+        setTimeout(revealLogo, 900);
+      }, 400);
+    }, 500);
+  }
+
+  /* ── LOGO REVEAL ── */
+  function revealLogo() {
+    const ellipse = document.querySelector('#ellipse-svg ellipse');
+    const logoImg = document.getElementById('logo-img');
+    const fallback = document.getElementById('logo-fallback');
+
+    ellipse.style.opacity = '0';
+
+    if (logoImg.style.display === 'none') {
+      // image failed to load — show text fallback instead
+      if (fallback) fallback.style.opacity = '1';
+    } else {
+      logoImg.classList.add('show');
+    }
+
+    setTimeout(transitionToMain, 1400);
+  }
+
+  /* ── TRANSITION TO MAIN ── */
+  function transitionToMain() {
+    const intro = document.getElementById('intro');
+    const main  = document.getElementById('main');
+
+    intro.classList.add('fade-out');
+    main.classList.add('show');
+
+    drawGrid();
+    spawnWords();
+
+    setTimeout(() => {
+      intro.style.display = 'none';
+      const settled = document.getElementById('logo-settled');
+      if (settled) settled.classList.add('show');
+    }, 900);
+  }
+
+  /* ── AMBIENT GRID ── */
+  function drawGrid() {
+    const canvas = document.getElementById('grid-canvas');
+    const ctx = canvas.getContext('2d');
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#c8b8ff';
+      ctx.lineWidth = 0.5;
+      const gap = 60;
+      for (let x = 0; x < canvas.width; x += gap) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += gap) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+    }
+    resize();
+    window.addEventListener('resize', resize);
+  }
+
+  /* ── FLOATING WORDS ── */
+  const positions = [];
+
+  function noOverlap(x, y, w, h, pad) {
+    for (const p of positions) {
+      if (x < p.x + p.w + pad && x + w + pad > p.x &&
+          y < p.y + p.h + pad && y + h + pad > p.y) return false;
+    }
+    return true;
+  }
+
+  function spawnWords() {
+    const main = document.getElementById('main');
+    const W = window.innerWidth, H = window.innerHeight;
+    const PAD = 40;
+
+    WORDS.forEach((word, i) => {
+      const el = document.createElement('div');
+      el.className = 'float-word';
+      el.textContent = word.label;
+      if (word.size)   el.style.fontSize  = word.size;
+      if (word.weight) el.style.fontWeight = word.weight;
+      main.appendChild(el);
+
+      const rect = el.getBoundingClientRect();
+      const ew = rect.width  || word.label.length * 12;
+      const eh = rect.height || 22;
+
+      let x, y, tries = 0;
+      do {
+        x = PAD + Math.random() * (W - ew - PAD * 2);
+        y = 120  + Math.random() * (H - eh - 160);
+        tries++;
+      } while (!noOverlap(x, y, ew, eh, 80) && tries < 60);
+
+      positions.push({ x, y, w: ew, h: eh });
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+
+      const dx  = (Math.random() - 0.5) * 60;
+      const dy  = (Math.random() - 0.5) * 40;
+      const dur = 14 + Math.random() * 10;
+      const styleTag = document.createElement('style');
+      styleTag.textContent = `
+        @keyframes drift-${i} {
+          from { transform: translate(0, 0); }
+          to   { transform: translate(${dx}px, ${dy}px); }
+        }`;
+      document.head.appendChild(styleTag);
+      el.style.animation = `drift-${i} ${dur}s ease-in-out infinite alternate`;
+
+      setTimeout(() => el.classList.add('show'), 200 + i * 180);
+
+      el.addEventListener('click', () => openModal(word.modal));
+    });
+  }
+
+  /* ── MODAL ── */
+  function openModal(data) {
+    document.getElementById('modal-title').textContent    = data.title;
+    document.getElementById('modal-subtitle').textContent = data.subtitle;
+
+    const bodyEl = document.getElementById('modal-body');
+    bodyEl.innerHTML = '';
+    data.body.split('\n\n').forEach(para => {
+      if (!para.trim()) return;
+      const p = document.createElement('p');
+      p.style.marginBottom = '1rem';
+      p.textContent = para;
+      bodyEl.appendChild(p);
+    });
+
+    const actionsEl = document.getElementById('modal-actions');
+    actionsEl.innerHTML = '';
+    data.actions.forEach(action => {
+      if (action.style === 'primary' && action.href) {
+        const a = document.createElement('a');
+        a.className = 'btn-primary';
+        a.href = action.href;
+        a.textContent = action.label;
+        actionsEl.appendChild(a);
+      } else {
+        const span = document.createElement('span');
+        span.className = 'btn-ghost';
+        span.title = 'Coming soon';
+        span.textContent = action.label;
+        actionsEl.appendChild(span);
+      }
+    });
+
+    document.getElementById('modal-bg').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-bg').classList.remove('open');
+  }
+
+  const settled = document.getElementById('logo-settled');
+  let logoToggled = false;
+  settled.addEventListener('click', () => {
+    logoToggled = !logoToggled;
+    settled.src = logoToggled ? 'ref/illogy-logo-tagline.png' : 'ref/illogy-logo.png';
+  });
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-bg').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-bg')) closeModal();
+  });
+
+})();
+</script>
+</body>
+</html>
