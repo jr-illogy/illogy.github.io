@@ -238,6 +238,68 @@
       cursor: default;
       opacity: 0.5;
     }
+
+    button.btn-primary {
+      background: transparent;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .store-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 1rem 0;
+      border-top: 1px solid #2a2a40;
+
+      color: var(--text);
+      text-decoration: none;
+
+      transition: color 0.25s ease,
+                  padding-left 0.25s ease;
+    }
+
+    .store-card:last-of-type {
+      border-bottom: 1px solid #2a2a40;
+    }
+
+    .store-card:hover {
+      color: var(--accent);
+      padding-left: 0.35rem;
+    }
+
+    .store-name {
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .store-format {
+      margin-top: 0.25rem;
+
+      color: var(--muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .store-arrow {
+      color: var(--accent);
+      font-size: 1.2rem;
+      transition: transform 0.25s ease;
+    }
+
+    .store-card:hover .store-arrow {
+      transform: translateX(4px);
+    }
+
+    .store-note {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -288,7 +350,7 @@
         body: `A man walks into an unfamiliar library. He knows the sole person who works there, and he has practically all his life. In the shelves lie the books and stories that uncannily tell his own. Reading between the lines of the pages, he begins to question if this personal museum he finds himself walking within is real or is some sort of purgatory. Why does his friend from the checkout counter always seem to know more about this place and about him than he does? What is he meant to find here? And if his story somehow lies within these walls, what will happen to him when he tries to leave?\n\nReynolds is a jaded developer in the driver's seat on something big, a project that will change the very nature of how intelligence is perceived. As his project enters the final stages of production, though, his team begins to fear that the project is more powerful than the world is ready for. A power vacuum emerges and Reynolds finds himself caught in the crossfire of a world on the brink of war, a project that may be its apocalyptic catalyst, and the looming feeling that he is connected to his work in far more ways than he knows.\n\nBoth men live separate lives in different times, yet they are joined in their search to answer the same key question: what does it mean to be real?`,
         actions: [
           { label: 'Interactive Epilogue', href: 'epilogue.html', style: 'primary' },
-          { label: 'Buy the Book', href: null, style: 'ghost' },
+          { label: 'Find Your Copy', action: 'buy', style: 'primary' },
         ]
       }
     },
@@ -340,6 +402,35 @@
     //   }
     // },
   ];
+
+  /* ── BUY OPTIONS ── */
+  const BUY_OPTIONS = {
+    title: 'Find Your Copy',
+    subtitle: 'Available in Paperback and eBook',
+    body: `Choose your preferred retailer.`,
+    stores: [
+      {
+        name: 'Amazon',
+        format: 'Paperback • Kindle Edition',
+        href: 'YOUR_AMAZON_LINK'
+      },
+      {
+        name: 'Barnes & Noble',
+        format: 'Paperback • NOOK eBook',
+        href: 'YOUR_BN_LINK'
+      },
+      {
+        name: 'Apple Books',
+        format: 'eBook',
+        href: 'YOUR_APPLE_BOOKS_LINK'
+      },
+      {
+        name: 'Kobo',
+        format: 'eBook',
+        href: 'YOUR_KOBO_LINK'
+      }
+    ]
+  };
 
   /* ── TYPEWRITER ── */
   const lines = [
@@ -525,13 +616,29 @@
     const actionsEl = document.getElementById('modal-actions');
     actionsEl.innerHTML = '';
     data.actions.forEach(action => {
-      if (action.style === 'primary' && action.href) {
+
+      // Normal link
+      if (action.href) {
         const a = document.createElement('a');
-        a.className = 'btn-primary';
+        a.className = action.style === 'primary'
+          ? 'btn-primary'
+          : 'btn-ghost';
         a.href = action.href;
         a.textContent = action.label;
         actionsEl.appendChild(a);
-      } else {
+      }
+
+      // Open retailer selection
+      else if (action.action === 'buy') {
+        const button = document.createElement('button');
+        button.className = 'btn-primary';
+        button.textContent = action.label;
+        button.addEventListener('click', openBuyModal);
+        actionsEl.appendChild(button);
+      }
+
+      // Disabled / coming soon
+      else {
         const span = document.createElement('span');
         span.className = 'btn-ghost';
         span.title = 'Coming soon';
@@ -545,6 +652,62 @@
 
   function closeModal() {
     document.getElementById('modal-bg').classList.remove('open');
+  }
+
+  function openBuyModal() {
+    document.getElementById('modal-title').textContent =
+      BUY_OPTIONS.title;
+    document.getElementById('modal-subtitle').textContent =
+      BUY_OPTIONS.subtitle;
+    const bodyEl = document.getElementById('modal-body');
+    bodyEl.innerHTML = '';
+    const intro = document.createElement('p');
+    intro.textContent = BUY_OPTIONS.body;
+    intro.style.marginBottom = '1.5rem';
+    bodyEl.appendChild(intro);
+    BUY_OPTIONS.stores.forEach(store => {
+      const card = document.createElement('a');
+      card.className = 'store-card';
+      card.href = store.href;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      const info = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = 'store-name';
+      name.textContent = store.name;
+      const format = document.createElement('div');
+      format.className = 'store-format';
+      format.textContent = store.format;
+      info.appendChild(name);
+      info.appendChild(format);
+      const arrow = document.createElement('div');
+      arrow.className = 'store-arrow';
+      arrow.textContent = '→';
+      card.appendChild(info);
+      card.appendChild(arrow);
+      bodyEl.appendChild(card);
+    });
+
+    const note = document.createElement('p');
+    note.className = 'store-note';
+    note.textContent =
+      'Also available through independent bookstores and libraries via Ingram distribution.';
+    bodyEl.appendChild(note);
+
+    // Replace original action buttons with a Back button
+    const actionsEl = document.getElementById('modal-actions');
+    actionsEl.innerHTML = '';
+
+    const back = document.createElement('button');
+    back.className = 'btn-primary';
+    back.textContent = 'Back';
+    back.addEventListener('click', () => {
+      openModal(
+        WORDS.find(word => word.label === 'Splitting the Binary').modal
+      );
+    });
+
+    actionsEl.appendChild(back);
   }
 
   const settled = document.getElementById('logo-settled');
