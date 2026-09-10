@@ -584,6 +584,10 @@
           <span class="icon">📄</span>
           <span class="fname">missing_persons_report.txt</span>
         </div>
+        <div class="tree-item" data-pane="pane-spotify">
+          <span class="icon">&#128279;</span>
+          <span class="fname">ambiance.html</span>
+        </div>
         <div class="tree-item" data-pane="pane-ghosts">
           <span class="icon">📄</span>
           <span class="fname">ghost_transcript.txt</span>
@@ -681,6 +685,10 @@
           <span class="fname">DownTheRabbitHole.mp4</span>
           <span class="badge red">enc</span>
         </div> -->
+        <div class="tree-item" data-pane="pane-typos">
+          <span class="icon">&#128196;</span>
+          <span class="fname">al_report.eml</span>
+        </div>
         <div class="tree-item" data-pane="pane-link4">
           <span class="icon">🔗</span>
           <span class="fname">sacrifice.html</span>
@@ -1004,6 +1012,21 @@
             <div class="lc-title">sacrifice.html</div>
             <div class="lc-url">nationalarchives.gov.uk</div>
             <div class="lc-desc">This is our first source outside the United States... and it&rsquo;s a summary of a British historical event. Maybe it relates somehow...?</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- LINK: Spotify -->
+      <div id="pane-spotify" class="pane">
+        <div class="prompt">&gt; open <span>ambiance.html</span></div>
+        <div class="pane-title">ambiance.html</div>
+        <div class="pane-meta">type: external reference &nbsp;|&nbsp; trust: redacted</div>
+        <a class="link-card" href="https://open.spotify.com/artist/00uk980WsFHmBHgdVKaNAi" target="_blank" rel="noopener">
+          <span class="lc-icon">🔗</span>
+          <div class="lc-body">
+            <div class="lc-title">ambiance.html</div>
+            <div class="lc-url">spotify.com</div>
+            <div class="lc-desc">Looks like a link to an artist on Spotify - maybe meant for ambiance while coding?</div>
           </div>
         </a>
       </div>
@@ -1460,6 +1483,31 @@
           I hold it true, whate&rsquo;er befall;<br/>
           I feel it, when I sorrow most;<br/>
           <b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b><b style="color:#4a9eff">&lt;blast&gt;</b></p>
+      </div>
+
+      <!-- TYPOS -->
+      <div id="pane-typos" class="pane">
+        <div class="prompt">&gt; cat <span>al_report.eml</span></div>
+        <div class="pane-title">al_report.eml</div>
+        <div class="pane-meta">filetype: message/email &nbsp;|&nbsp; recovered: intact &nbsp;|&nbsp; classification: internal</div>
+
+        <div style="max-width:680px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:12px;line-height:1.5">
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">FROM:</span> <span style="color:var(--text)">p2706549</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">TO:</span> <span style="color:var(--text)">p1030272</span></div>
+          <div style="color:var(--muted);margin-bottom:0.3rem"><span style="display:inline-block;min-width:80px">DATE:</span> <span style="color:var(--text)"><b style="color:#4a9eff">&lt;blast&gt;</b></span></div>
+          <div style="color:var(--muted);margin-bottom:0"><span style="display:inline-block;min-width:80px">SUBJECT:</span> <span style="color:var(--amber)">Al Analysis Report</span></div>
+        </div>
+
+        <div class="pane-body" style="max-width:680px;font-size:12px">
+          <p>Hey Adam,</p>
+          <p>I finished my analysis of the five most prominent models currently deployed, and while they're certainly improving I&rsquo;ve definitely found a few consistent pitfalls across them.</p>
+          <p>I spent the most time analyzing the AL 14.2 model, but these pitfalls also apply to the rest of the list you sent me. I&rsquo;m guessing they&rsquo;re all pulling from the same faulty data points somewhere, especially since they&rsquo;re such weird mistakes to make otherwise. I noticed repeated misspellings of names of prominent figures (i.e. "Elanor Roosevelt" instead of "Eleanor Roosevelt") and some misattributions for famous quotes (pretty sure "I think therefore I am" was Descartes, not Aristotle).</p>
+          <p>An arguably more shocking discovery I made though is the presence of "eggcorns" - common mishearings of phrases which are then spread, like "nip it in the butt" instead of "nip it in the bud". I observed the presence of another common one several times: "for all intensive purposes" instead of "for all intents and purposes".</p>
+          <p>I was able to obtain limited access to source code for the AL 14.2 model and it *kind of* seems like the eggcorns and misattributions are intentional, like they&rsquo;re some test to see if the reader is paying attention, still thinking and active? Eggcorns seem specific to AL 14.2 and Jary 76.35 but the other primary models all have their own unique methodology: Erik 12.2 uses emojis which are inconsistent with subject matter, and Lucianne 10.23 ranks several items in any given list as a "favorite" option.</p>
+          <p>Not exactly sure how this helps or what lessons we should be drawing from it though - maybe it&rsquo;s all just like Ford&rsquo;s park, where secret reverse data collection is the point of it all?</p>
+          <p style="margin-top:1.5rem">Let me know if you have any questions,<br/><span style="color:var(--muted)">Erin</span></p>
+          <div class="pane-meta" style="margin-top:2rem">SOURCE: recovered correspondence &nbsp;|&nbsp; CLASSIFICATION: internal</div>
+        </div>
       </div>
 
       <!-- BREADCRUMBS -->
@@ -1970,8 +2018,8 @@
 
         <div class="pane-body" style="max-width:680px;font-size:12px">
           <p>Hey Jacelyn,</p>
-          <p>	How many people do we currently employ? Adam once told me how many we had at our height but I need to know how many we have right now.</p>
-          <p>	There&rsquo;s a lot of <span data-glitch-text>steps</span> to this, but I think it&rsquo;ll really <span data-glitch-text>floor</span> you. I&rsquo;m breaking people into groups and am ideally aiming for the magic double digit, so whatever the number is can you just <span data-glitch-text>mod it by 10</span> and let me know what the result is? I&rsquo;m just trying to get the full <span data-glitch-text>picture</span>.</p>
+          <p>How many people do we currently employ? Adam once told me how many we had at our height but I need to know how many we have right now.</p>
+          <p>There&rsquo;s a lot of <span data-glitch-text>steps</span> to this, but I think it&rsquo;ll really <span data-glitch-text>floor</span> you. I&rsquo;m breaking people into groups and am ideally aiming for the magic double digit, so whatever the number is can you just <span data-glitch-text>mod it by 10</span> and let me know what the result is? I&rsquo;m just trying to get the full <span data-glitch-text>picture</span>.</p>
           <p>You can probably guess what all this is ultimately for, but if you&rsquo;re drawing a blank you&rsquo;ll see soon enough. I really think you are going to absolutely love it.</p>
           <p style="margin-top:1.5rem">You&rsquo;re the best,<br/><span style="color:var(--muted)">Doug</span></p>
           <div class="pane-meta" style="margin-top:2rem">SOURCE: recovered correspondence &nbsp;|&nbsp; CLASSIFICATION: internal</div>
